@@ -24,8 +24,21 @@ int main(int argc, char *argv[]) {
     lua_pushnumber(l, 1);
     lua_pushnumber(l, 2);
     lua_pcall(l, 2, 1, -1);
-    lua_close(l);
     int num = lua_tonumber(l, -1);
     printf("%d\n", num);
+
+    lua_pushstring(l, "hello world");
+    lua_pushnumber(l, 20);
+
+    if (lua_isstring(l, 2)) {
+        printf("is string: %s\n", lua_tostring(l, 2));
+    }
+
+    if (lua_isnumber(l, 3)) {
+        printf("isnumber: %s\n", lua_tostring(l, 3));
+    }
+
+    lua_close(l);
+
     return 0;
 }

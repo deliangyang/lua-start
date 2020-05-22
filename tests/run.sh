@@ -1,0 +1,1 @@
+ gcc add.c -I/usr/local/include/lua5.3/  -llua  -o assert && ./assert
