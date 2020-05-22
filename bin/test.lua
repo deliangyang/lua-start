@@ -19,3 +19,5 @@ main <../bin/test.lua:0,0> (4 instructions at 0x7f8557500b80)
 3       [9]     CALL            0 2 1
 4       [9]     RETURN          0 1
 --]]
+
+

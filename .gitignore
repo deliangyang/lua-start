@@ -6,3 +6,5 @@
 /tests/
 !/tests/*.c
 !/tests/*.h
+
+/**/*.out
