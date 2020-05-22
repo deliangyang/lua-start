@@ -3,7 +3,7 @@
 /**/*.o
 /**/*.a
 
-/tests/
+/tests/*
 !/tests/*.c
 !/tests/*.h
 
