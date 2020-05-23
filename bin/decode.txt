@@ -1,0 +1,71 @@
+success compiling test.lua
+Pos   Hex Data           Description or Code
+------------------------------------------------------------------------
+0000                     ** source chunk: test.lua
+                         ** global header start **
+0000  1B4C7561           header signature: "\27Lua"
+0004  53                 version (major:minor hex digits)
+0005  00                 format (0=official)
+0006  19930D0A1A0A       LUAC_DATA: "\25\147\r\n\26\n"
+000C  04                 size of int (bytes)
+000D  08                 size of size_t (bytes)
+000E  04                 size of Instruction (bytes)
+000F  08                 size of Integer (bytes)
+0010  08                 size of Number (bytes)
+0011  7856000000000000   endianness bytes 0x5678
+0019  0000000000287740   float format 370.5
+0021  01                 global closure nupvalues 1
+                         ** global header end **
+                         
+0022                     ** function [0] definition (level 1) 0
+                         ** start of function 0 **
+0022  0A                 string size (10)
+0023  40746573742E6C75+  "@test.lu"
+002B  61                 "a"
+                         source name: @test.lua
+002C  00000000           line defined (0)
+0030  00000000           last line defined (0)
+0034  00                 numparams (0)
+0035  01                 is_vararg (1)
+0036  02                 maxstacksize (2)
+                         * code:
+0037  04000000           sizecode (4)
+003B  06004000           [1] gettabup  0   0   256  ; R0 := U0(=_ENV)[K0(="print")]
+003F  41400000           [2] loadk     1   1        ; R1 := K1(="hello world")
+0043  24400001           [3] call      0   2   1    ;  := R0(R1)
+0047  26008000           [4] return    0   1        ; return 
+                         * constants:
+004B  02000000           sizek (2)
+004F  04                 const type LUA_TSHRSTR
+0050  06                 string size (6)
+0051  7072696E74         "print"
+                         const [0]: "print"
+0056  04                 const type LUA_TSHRSTR
+0057  0C                 string size (12)
+0058  68656C6C6F20776F+  "hello wo"
+0060  726C64             "rld"
+                         const [1]: "hello world"
+                         * upvalues:
+0063  01000000           sizeupvalues (1)
+                         upvalue [0]: _ENV
+0067  01                   instack (1)
+0068  00                   idx     (0)
+                         * functions:
+0069  00000000           sizep (0)
+                         * lines:
+006D  04000000           sizelineinfo (4)
+                         [pc] (line)
+0071  09000000           [1] (9)
+0075  09000000           [2] (9)
+0079  09000000           [3] (9)
+007D  09000000           [4] (9)
+                         * locals:
+0081  00000000           sizelocvars (0)
+                         * upvalue names:
+0085  01000000           size_upvalue_names (1)
+                         upvalue [0]: _ENV
+0089  05                 string size (5)
+008A  5F454E56           "_ENV"
+                         ** end of function 0 **
+
+008E                     ** end of chunk **
