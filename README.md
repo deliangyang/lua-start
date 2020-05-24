@@ -2,7 +2,7 @@
 ## 开始学习lua
 
 
-![visitor badge](https://visitor-badge.glitch.me/badge?repo_id=6b3cc0f61621757a497cf277909987d7)
+![visitor badge](https://visitor-badge.glitch.me/badge?repo_id=6b3cc0f61621757a497cf277909987d7&page_id=6b3cc)
 
 
 1. lua的词法、语法解析，语义分析，代码生成
