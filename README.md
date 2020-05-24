@@ -2,6 +2,9 @@
 ## 开始学习lua
 
 
+![visitor badge](https://visitor-badge.glitch.me/badge?repo_id=6b3cc0f61621757a497cf277909987d7)
+
+
 1. lua的词法、语法解析，语义分析，代码生成
 parse完毕之后等到AST，一个先进的编译器应该包含趣多的步骤：语义分析，类型检查/推导，代码优化，机器代码生成...
 
