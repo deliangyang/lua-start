@@ -14,7 +14,10 @@ void print(int c) {
     printf("%d\n", c);
 }
 
+#define to_lower(c)	((c) | ('A' ^ 'a'))
+
 int main(int argc, char *argv[]) {
     add(1, 3, print);
+    printf("%c\n", to_lower('C'));
     return 0;
 }
