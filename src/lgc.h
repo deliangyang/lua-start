@@ -73,6 +73,11 @@
 #define resetbit(x,b)		resetbits(x, bitmask(b))
 #define testbit(x,b)		testbits(x, bitmask(b))
 
+// 链表？
+// white 可回收状态     初始化状态就是白色
+// gray 中间状态
+// 黑色 不可回收状态    已标记状态
+
 
 /* Layout for bit use in 'marked' field: */
 #define WHITE0BIT	0  /* object is white (type 0) */

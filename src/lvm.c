@@ -782,7 +782,9 @@ void luaV_finishOp (lua_State *L) {
     Protect(luaV_finishset(L,t,k,v,slot)); }
 
 
-
+/**
+ * 执行opcode
+ */
 void luaV_execute (lua_State *L) {
   CallInfo *ci = L->ci;
   LClosure *cl;
@@ -796,10 +798,10 @@ void luaV_execute (lua_State *L) {
   base = ci->u.l.base;  /* local copy of function's base */
   /* main loop of interpreter */
   for (;;) {
-    Instruction i;
+    Instruction i;          // 字节码
     StkId ra;
     vmfetch();
-    vmdispatch (GET_OPCODE(i)) {
+    vmdispatch (GET_OPCODE(i)) {        // 拿到OP_Code
       vmcase(OP_MOVE) {
         setobjs2s(L, ra, RB(i));
         vmbreak;
@@ -891,6 +893,7 @@ void luaV_execute (lua_State *L) {
         TValue *rc = RKC(i);
         lua_Number nb; lua_Number nc;
         if (ttisinteger(rb) && ttisinteger(rc)) {
+            // 如果判断类型是 integer，调用宏 +，并将setivalue到 ra
           lua_Integer ib = ivalue(rb); lua_Integer ic = ivalue(rc);
           setivalue(ra, intop(+, ib, ic));
         }

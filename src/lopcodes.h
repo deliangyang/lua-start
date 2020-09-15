@@ -154,9 +154,9 @@ enum OpMode {iABC, iABx, iAsBx, iAx};  /* basic instruction format */
 
 
 /*
-** R(x) - register
-** Kst(x) - constant (in constant table)
-** RK(x) == if ISK(x) then Kst(INDEXK(x)) else R(x)
+** R(x) - register                                      // 寄存器
+** Kst(x) - constant (in constant table)                // 常量
+** RK(x) == if ISK(x) then Kst(INDEXK(x)) else R(x)     // 如果x是常量，证返回常量，否则返回寄存器上的值？
 */
 
 

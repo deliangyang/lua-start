@@ -1109,7 +1109,7 @@ void luaC_runtilstate (lua_State *L, int statesmask) {
 
 
 /*
-** get GC debt and convert it from Kb to 'work units' (avoid zero debt
+** get GC debt（债务） and convert it from Kb to 'work units' (avoid zero debt
 ** and overflows)
 */
 static l_mem getdebt (global_State *g) {
