@@ -11,5 +11,9 @@ int func(int a, int b) {
 int main(int argc, char *argv[]) {
     int(*tt)(int a, int b) = func;
     printf("%d\n", tt(1, 3));
+
+    for (int i = 0; i < argc; i++) {
+        printf("%s\n", argv[i]);
+    }
     return 0;
 }
