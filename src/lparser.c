@@ -173,14 +173,14 @@ static int registerlocalvar (LexState *ls, TString *varname) {
 
 
 static void new_localvar (LexState *ls, TString *name) {
-  FuncState *fs = ls->fs;
-  Dyndata *dyd = ls->dyd;
-  int reg = registerlocalvar(ls, name);
+  FuncState *fs = ls->fs;    // 获取当前 ls 的func state
+  Dyndata *dyd = ls->dyd;   // 解释器使用的动态结构
+  int reg = registerlocalvar(ls, name); // 注册变量
   checklimit(fs, dyd->actvar.n + 1 - fs->firstlocal,
                   MAXVARS, "local variables");
   luaM_growvector(ls->L, dyd->actvar.arr, dyd->actvar.n + 1,
                   dyd->actvar.size, Vardesc, MAX_INT, "local variables");
-  dyd->actvar.arr[dyd->actvar.n++].idx = cast(short, reg);
+  dyd->actvar.arr[dyd->actvar.n++].idx = cast(short, reg);  // short(reg)
 }
 
 
@@ -598,6 +598,7 @@ static int block_follow (LexState *ls, int withuntil) {
 static void statlist (LexState *ls) {
   /* statlist -> { stat [';'] } */
   while (!block_follow(ls, 1)) {
+    // 如果是return 跳出循环
     if (ls->t.token == TK_RETURN) {
       statement(ls);
       return;  /* 'return' must be last statement */
@@ -1379,6 +1380,7 @@ static void forstat (LexState *ls, int line) {
 }
 
 
+// if xxx then
 static void test_then_block (LexState *ls, int *escapelist) {
   /* test_then_block -> [IF | ELSEIF] cond THEN block */
   BlockCnt bl;
@@ -1419,11 +1421,11 @@ static void ifstat (LexState *ls, int line) {
   FuncState *fs = ls->fs;
   int escapelist = NO_JUMP;  /* exit list for finished parts */
   test_then_block(ls, &escapelist);  /* IF cond THEN block */
-  while (ls->t.token == TK_ELSEIF)
+  while (ls->t.token == TK_ELSEIF)    // else if 解析
     test_then_block(ls, &escapelist);  /* ELSEIF cond THEN block */
-  if (testnext(ls, TK_ELSE))
-    block(ls);  /* 'else' part */
-  check_match(ls, TK_END, TK_IF, line);
+  if (testnext(ls, TK_ELSE))      // else 解析
+    block(ls);  /* 'else' part * 获取else的body */
+  check_match(ls, TK_END, TK_IF, line);   //  确认最后是end结束
   luaK_patchtohere(fs, escapelist);  /* patch escape list to 'if' end */
 }
 
@@ -1431,9 +1433,9 @@ static void ifstat (LexState *ls, int line) {
 static void localfunc (LexState *ls) {
   expdesc b;
   FuncState *fs = ls->fs;
-  new_localvar(ls, str_checkname(ls));  /* new local variable */
-  adjustlocalvars(ls, 1);  /* enter its scope */
-  body(ls, &b, 0, ls->linenumber);  /* function created in next register */
+  new_localvar(ls, str_checkname(ls));  /* new local variable 初始化一个局部变量 */
+  adjustlocalvars(ls, 1);  /* enter its scope 进入作用域 */
+  body(ls, &b, 0, ls->linenumber);  /* function created in next register 创建下一个寄存器 */
   /* debug information will only see the variable after this point! */
   getlocvar(fs, b.u.info)->startpc = fs->pc;
 }
@@ -1533,6 +1535,11 @@ static void retstat (LexState *ls) {
   testnext(ls, ';');  /* skip optional semicolon */
 }
 
+/**
+ * @brief 词法解析
+ * 
+ * @param ls 
+ */
 static void statement (LexState *ls) {
   int line = ls->linenumber;  /* may be needed for error messages */
   enterlevel(ls);
@@ -1541,7 +1548,7 @@ static void statement (LexState *ls) {
       luaX_next(ls);  /* skip ';' */
       break;
     }
-    case TK_IF: {  /* stat -> ifstat */
+    case TK_IF: {  /* stat -> ifstat 解析if结构 */
       ifstat(ls, line);
       break;
     }
@@ -1605,6 +1612,7 @@ static void statement (LexState *ls) {
 
 
 /*
+** 编译主函数，是一个常规的可变参数函数，有一个lua_ENV的值
 ** compiles the main function, which is a regular vararg function with an
 ** upvalue named LUA_ENV
 */
@@ -1614,9 +1622,9 @@ static void mainfunc (LexState *ls, FuncState *fs) {
   open_func(ls, fs, &bl);
   fs->f->is_vararg = 1;  /* main function is always declared vararg */
   init_exp(&v, VLOCAL, 0);  /* create and... */
-  newupvalue(fs, ls->envn, &v);  /* ...set environment upvalue */
-  luaX_next(ls);  /* read first token */
-  statlist(ls);  /* parse main body */
+  newupvalue(fs, ls->envn, &v);  /* ...set environment upvalue 设置环境变量 */
+  luaX_next(ls);  /* read first token 获取第一个token */
+  statlist(ls);  /* parse main body 解析主体 */
   check(ls, TK_EOS);
   close_func(ls);
 }

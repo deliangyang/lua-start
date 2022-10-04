@@ -81,7 +81,7 @@ typedef struct stringtable {
 
 
 /*
-** Information about a call.
+** Information about a call. 调用信息
 ** When a thread yields, 'func' is adjusted to pretend that the
 ** top function has only the yielded values in its stack; in that
 ** case, the actual 'func' value is saved in field 'extra'.
@@ -196,7 +196,7 @@ struct lua_State {
   int basehookcount;
   int hookcount;
   unsigned short nny;  /* number of non-yieldable calls in stack */
-  unsigned short nCcalls;  /* number of nested C calls */
+  unsigned short nCcalls;  /* number of nested C calls 嵌套最深为200 */
   l_signalT hookmask;
   lu_byte allowhook;
 };

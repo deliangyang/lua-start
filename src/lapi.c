@@ -996,7 +996,7 @@ LUA_API int lua_load (lua_State *L, lua_Reader reader, void *data,
   lua_lock(L);
   if (!chunkname) chunkname = "?";
   luaZ_init(L, &z, reader, data);
-  status = luaD_protectedparser(L, &z, chunkname, mode);
+  status = luaD_protectedparser(L, &z, chunkname, mode);    // 保护模式下解析
   if (status == LUA_OK) {  /* no errors? */
     LClosure *f = clLvalue(L->top - 1);  /* get newly created function */
     if (f->nupvalues >= 1) {  /* does it have an upvalue? */

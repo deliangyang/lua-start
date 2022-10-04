@@ -699,7 +699,7 @@ static int skipcomment (LoadF *lf, int *cp) {
   else return 0;  /* no comment */
 }
 
-
+// luaL_loadfilex 加载文件
 LUALIB_API int luaL_loadfilex (lua_State *L, const char *filename,
                                              const char *mode) {
   LoadF lf;

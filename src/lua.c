@@ -461,6 +461,7 @@ static int handle_script (lua_State *L, char **argv) {
 ** needed before running any Lua code (or an error code if it finds
 ** any invalid argument). 'first' returns the first not-handled argument
 ** (either the script name or a bad argument in case of error).
+** 解析命令行参数
 */
 static int collectargs (char **argv, int *first) {
   int args = 0;
@@ -556,7 +557,7 @@ static int pmain (lua_State *L) {
   char **argv = (char **)lua_touserdata(L, 2);
   int script;
   int args = collectargs(argv, &script);
-  luaL_checkversion(L);  /* check that interpreter has correct version */
+  luaL_checkversion(L);  /* check that interpreter has correct version 检查版本 */
   if (argv[0] && argv[0][0]) progname = argv[0];
   if (args == has_error) {  /* bad arg? */
     print_usage(argv[script]);  /* 'script' has index of bad arg. */
@@ -568,7 +569,7 @@ static int pmain (lua_State *L) {
     lua_pushboolean(L, 1);  /* signal for libraries to ignore env. vars. */
     lua_setfield(L, LUA_REGISTRYINDEX, "LUA_NOENV");
   }
-  luaL_openlibs(L);  /* open standard libraries */
+  luaL_openlibs(L);  /* open standard libraries 打开标准库 */
   createargtable(L, argv, argc, script);  /* create table 'arg' */
   if (!(args & has_E)) {  /* no option '-E'? */
     if (handle_luainit(L) != LUA_OK)  /* run LUA_INIT */
@@ -580,33 +581,41 @@ static int pmain (lua_State *L) {
       handle_script(L, argv + script) != LUA_OK)
     return 0;
   if (args & has_i)  /* -i option? */
-    doREPL(L);  /* do read-eval-print loop */
+    doREPL(L);  /* do read-eval-print loop 交互模式 */
   else if (script == argc && !(args & (has_e | has_v))) {  /* no arguments? */
     if (lua_stdin_is_tty()) {  /* running in interactive mode? */
       print_version();
       doREPL(L);  /* do read-eval-print loop */
     }
-    else dofile(L, NULL);  /* executes stdin as a file */
+    else dofile(L, NULL);  /* executes stdin as a file 执行标准文件 *.lua */
   }
   lua_pushboolean(L, 1);  /* signal no errors */
   return 1;
 }
 
 
+/**
+ * @brief 入口函数
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
 int main (int argc, char **argv) {
   int status, result;
-  lua_State *L = luaL_newstate();  /* create state */
+  lua_State *L = luaL_newstate();  /* create state 创建一个lua的执行状态 */
   if (L == NULL) {
+    // 创建失败
     l_message(argv[0], "cannot create state: not enough memory");
     return EXIT_FAILURE;
   }
-  lua_pushcfunction(L, &pmain);  /* to call 'pmain' in protected mode */
-  lua_pushinteger(L, argc);  /* 1st argument */
-  lua_pushlightuserdata(L, argv); /* 2nd argument */
-  status = lua_pcall(L, 2, 1, 0);  /* do the call */
-  result = lua_toboolean(L, -1);  /* get result */
-  report(L, status);
-  lua_close(L);
+  lua_pushcfunction(L, &pmain);  /* to call 'pmain' in protected mode 保护模式下调用pmain*/
+  lua_pushinteger(L, argc);  /* 1st argument 第一个参数 */
+  lua_pushlightuserdata(L, argv); /* 2nd argument 第二个参数 */
+  status = lua_pcall(L, 2, 1, 0);  /* do the call 调用函数 */
+  result = lua_toboolean(L, -1);  /* get result 获取结果 */
+  report(L, status);  // 上报，打印错误
+  lua_close(L); // 关闭执行状态
   return (result && status == LUA_OK) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 

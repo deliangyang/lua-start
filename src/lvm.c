@@ -800,7 +800,7 @@ void luaV_execute (lua_State *L) {
   for (;;) {
     Instruction i;          // 字节码
     StkId ra;               // 栈元素索引
-    vmfetch();
+    vmfetch();          // 获取pc地址指向的值
     vmdispatch (GET_OPCODE(i)) {        // 拿到OP_Code
       vmcase(OP_MOVE) {                 // op_move
         setobjs2s(L, ra, RB(i));
