@@ -39,7 +39,7 @@ enum RESERVED {
 /* number of reserved words */
 #define NUM_RESERVED	(cast(int, TK_WHILE-FIRST_RESERVED+1))
 
-
+// SemInfo 语义信息
 typedef union {
   lua_Number r;
   lua_Integer i;
@@ -55,6 +55,7 @@ typedef struct Token {
 
 /* state of the lexer plus state of the parser when shared by all
    functions */
+// 词法分析
 typedef struct LexState {
   int current;  /* current character (charint) */
   int linenumber;  /* input line counter */

@@ -108,6 +108,7 @@ typedef LUAI_UACINT l_uacInt;
 
 
 /* type casts (a macro highlights casts in the code) */
+// 投掷 int(1)
 #define cast(t, exp)	((t)(exp))
 
 #define cast_void(i)	cast(void, (i))
@@ -158,9 +159,10 @@ typedef LUAI_UACINT l_uacInt;
 /*
 ** type for virtual-machine instructions;
 ** must be an unsigned with (at least) 4 bytes (see details in lopcodes.h)
+** 虚拟机指令类型，必须是一个无符号的4个字节，详情查看操作码
 */
 #if LUAI_BITSINT >= 32
-typedef unsigned int Instruction;
+typedef unsigned int Instruction;     // 指令
 #else
 typedef unsigned long Instruction;
 #endif

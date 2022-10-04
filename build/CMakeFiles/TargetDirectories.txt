@@ -1,0 +1,5 @@
+/home/ydl/work/c-dev/lua-start/build/CMakeFiles/lua.dir
+/home/ydl/work/c-dev/lua-start/build/CMakeFiles/luaexec.dir
+/home/ydl/work/c-dev/lua-start/build/CMakeFiles/luac.dir
+/home/ydl/work/c-dev/lua-start/build/CMakeFiles/edit_cache.dir
+/home/ydl/work/c-dev/lua-start/build/CMakeFiles/rebuild_cache.dir

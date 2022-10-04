@@ -28,7 +28,10 @@
   unsigned argument.
 ===========================================================================*/
 
-
+// i opcode 6 bits
+// A 8 bits
+// B 9 bits
+// C 9 bits
 enum OpMode {iABC, iABx, iAsBx, iAx};  /* basic instruction format */
 
 
@@ -163,6 +166,11 @@ enum OpMode {iABC, iABx, iAsBx, iAx};  /* basic instruction format */
 /*
 ** grep "ORDER OP" if you change these enums
 */
+/**
+ * pc：instruction pointer 指令计数器
+ *
+ *  
+ */
 
 typedef enum {
 /*----------------------------------------------------------------------
@@ -272,10 +280,10 @@ OP_EXTRAARG/*	Ax	extra (larger) argument for previous opcode	*/
 */
 
 enum OpArgMask {
-  OpArgN,  /* argument is not used */
-  OpArgU,  /* argument is used */
-  OpArgR,  /* argument is a register or a jump offset */
-  OpArgK   /* argument is a constant or register/constant */
+  OpArgN,  /* argument is not used 不使用参数 */
+  OpArgU,  /* argument is used 使用参数 */
+  OpArgR,  /* argument is a register or a jump offset 参数是一个寄存器或者跳转偏移量 */
+  OpArgK   /* argument is a constant or register/constant 参数是一个常量或者寄存器常量 */
 };
 
 LUAI_DDEC const lu_byte luaP_opmodes[NUM_OPCODES];

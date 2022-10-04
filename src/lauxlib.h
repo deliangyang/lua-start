@@ -1,6 +1,6 @@
 /*
 ** $Id: lauxlib.h,v 1.131.1.1 2017/04/19 17:20:42 roberto Exp $
-** Auxiliary functions for building Lua libraries
+** Auxiliary functions for building Lua libraries 辅助函数库
 ** See Copyright Notice in lua.h
 */
 

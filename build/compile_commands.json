@@ -1,0 +1,187 @@
+[
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lapi.c.o -c /home/ydl/work/c-dev/lua-start/src/lapi.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lapi.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lauxlib.c.o -c /home/ydl/work/c-dev/lua-start/src/lauxlib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lauxlib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lbaselib.c.o -c /home/ydl/work/c-dev/lua-start/src/lbaselib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lbaselib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lbitlib.c.o -c /home/ydl/work/c-dev/lua-start/src/lbitlib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lbitlib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lcode.c.o -c /home/ydl/work/c-dev/lua-start/src/lcode.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lcode.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lcorolib.c.o -c /home/ydl/work/c-dev/lua-start/src/lcorolib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lcorolib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lctype.c.o -c /home/ydl/work/c-dev/lua-start/src/lctype.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lctype.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/ldblib.c.o -c /home/ydl/work/c-dev/lua-start/src/ldblib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/ldblib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/ldebug.c.o -c /home/ydl/work/c-dev/lua-start/src/ldebug.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/ldebug.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/ldo.c.o -c /home/ydl/work/c-dev/lua-start/src/ldo.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/ldo.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/ldump.c.o -c /home/ydl/work/c-dev/lua-start/src/ldump.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/ldump.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lfunc.c.o -c /home/ydl/work/c-dev/lua-start/src/lfunc.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lfunc.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lgc.c.o -c /home/ydl/work/c-dev/lua-start/src/lgc.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lgc.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/linit.c.o -c /home/ydl/work/c-dev/lua-start/src/linit.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/linit.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/liolib.c.o -c /home/ydl/work/c-dev/lua-start/src/liolib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/liolib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/llex.c.o -c /home/ydl/work/c-dev/lua-start/src/llex.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/llex.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lmathlib.c.o -c /home/ydl/work/c-dev/lua-start/src/lmathlib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lmathlib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lmem.c.o -c /home/ydl/work/c-dev/lua-start/src/lmem.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lmem.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/loadlib.c.o -c /home/ydl/work/c-dev/lua-start/src/loadlib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/loadlib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lobject.c.o -c /home/ydl/work/c-dev/lua-start/src/lobject.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lobject.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lopcodes.c.o -c /home/ydl/work/c-dev/lua-start/src/lopcodes.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lopcodes.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/loslib.c.o -c /home/ydl/work/c-dev/lua-start/src/loslib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/loslib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lparser.c.o -c /home/ydl/work/c-dev/lua-start/src/lparser.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lparser.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lstate.c.o -c /home/ydl/work/c-dev/lua-start/src/lstate.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lstate.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lstring.c.o -c /home/ydl/work/c-dev/lua-start/src/lstring.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lstring.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lstrlib.c.o -c /home/ydl/work/c-dev/lua-start/src/lstrlib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lstrlib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/ltable.c.o -c /home/ydl/work/c-dev/lua-start/src/ltable.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/ltable.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/ltablib.c.o -c /home/ydl/work/c-dev/lua-start/src/ltablib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/ltablib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/ltm.c.o -c /home/ydl/work/c-dev/lua-start/src/ltm.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/ltm.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lua.c.o -c /home/ydl/work/c-dev/lua-start/src/lua.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lua.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/luac.c.o -c /home/ydl/work/c-dev/lua-start/src/luac.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/luac.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lundump.c.o -c /home/ydl/work/c-dev/lua-start/src/lundump.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lundump.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lutf8lib.c.o -c /home/ydl/work/c-dev/lua-start/src/lutf8lib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lutf8lib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lvm.c.o -c /home/ydl/work/c-dev/lua-start/src/lvm.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lvm.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/lzio.c.o -c /home/ydl/work/c-dev/lua-start/src/lzio.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lzio.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/luaexec.dir/src/lua.c.o -c /home/ydl/work/c-dev/lua-start/src/lua.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/lua.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/luac.dir/src/luac.c.o -c /home/ydl/work/c-dev/lua-start/src/luac.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/luac.c"
+}
+]

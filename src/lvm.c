@@ -799,10 +799,10 @@ void luaV_execute (lua_State *L) {
   /* main loop of interpreter */
   for (;;) {
     Instruction i;          // 字节码
-    StkId ra;
+    StkId ra;               // 栈元素索引
     vmfetch();
     vmdispatch (GET_OPCODE(i)) {        // 拿到OP_Code
-      vmcase(OP_MOVE) {
+      vmcase(OP_MOVE) {                 // op_move
         setobjs2s(L, ra, RB(i));
         vmbreak;
       }
@@ -1285,7 +1285,7 @@ void luaV_execute (lua_State *L) {
         L->top = ci->top;  /* correct top (in case of previous open call) */
         vmbreak;
       }
-      vmcase(OP_CLOSURE) {
+      vmcase(OP_CLOSURE) {                      // 闭包
         Proto *p = cl->p->p[GETARG_Bx(i)];
         LClosure *ncl = getcached(p, cl->upvals, base);  /* cached closure */
         if (ncl == NULL)  /* no match? */
@@ -1313,7 +1313,7 @@ void luaV_execute (lua_State *L) {
           setnilvalue(ra + j);
         vmbreak;
       }
-      vmcase(OP_EXTRAARG) {
+      vmcase(OP_EXTRAARG) {       // 退出
         lua_assert(0);
         vmbreak;
       }

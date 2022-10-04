@@ -28,7 +28,6 @@
 #include "lzio.h"
 
 
-
 #define next(ls) (ls->current = zgetc(ls->z))
 
 
@@ -78,7 +77,7 @@ void luaX_init (lua_State *L) {
   }
 }
 
-
+// token 转字符串
 const char *luaX_token2str (LexState *ls, int token) {
   if (token < FIRST_RESERVED) {  /* single-byte symbols? */
     lua_assert(token == cast_uchar(token));

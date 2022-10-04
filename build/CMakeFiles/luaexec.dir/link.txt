@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/luaexec.dir/src/lua.c.o -o lua  liblua.a 
