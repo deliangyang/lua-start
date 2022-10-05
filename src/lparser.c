@@ -1503,6 +1503,11 @@ static void exprstat (LexState *ls) {
 }
 
 
+/**
+ * @brief 将return表达式转化为opcode
+ * 
+ * @param ls 
+ */
 static void retstat (LexState *ls) {
   /* stat -> RETURN [explist] [';'] */
   FuncState *fs = ls->fs;

@@ -99,6 +99,7 @@ const char *luaT_objtypename (lua_State *L, const TValue *o) {
 }
 
 
+// 调用 tag method
 void luaT_callTM (lua_State *L, const TValue *f, const TValue *p1,
                   const TValue *p2, TValue *p3, int hasres) {
   ptrdiff_t result = savestack(L, p3);

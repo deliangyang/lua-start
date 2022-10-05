@@ -1,6 +1,6 @@
 /*
 ** $Id: lcode.c,v 2.112.1.1 2017/04/19 17:20:42 roberto Exp $
-** Code generator for Lua
+** Code generator for Lua 构造opcode
 ** See Copyright Notice in lua.h
 */
 
@@ -301,7 +301,7 @@ static int luaK_code (FuncState *fs, Instruction i) {
   luaM_growvector(fs->ls->L, f->lineinfo, fs->pc, f->sizelineinfo, int,
                   MAX_INT, "opcodes");
   f->lineinfo[fs->pc] = fs->ls->lastline;
-  return fs->pc++;
+  return fs->pc++;      // 返回指针计数器，即指令的位置
 }
 
 
@@ -589,6 +589,7 @@ void luaK_dischargevars (FuncState *fs, expdesc *e) {
 
 
 /*
+** 确保表达式值在寄存器reg中。所有e将会变成不可重定向表达式
 ** Ensures expression value is in register 'reg' (and therefore
 ** 'e' will become a non-relocatable expression).
 */

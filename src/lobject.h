@@ -417,14 +417,14 @@ typedef struct Proto {
   int sizelocvars;
   int linedefined;  /* debug information  */
   int lastlinedefined;  /* debug information  */
-  TValue *k;  /* constants used by the function */
-  Instruction *code;  /* opcodes */
+  TValue *k;  /* constants used by the function 函数用到的常量*/
+  Instruction *code;  /* opcodes opcode数组指令 */
   struct Proto **p;  /* functions defined inside the function */
   int *lineinfo;  /* map from opcodes to source lines (debug information) */
   LocVar *locvars;  /* information about local variables (debug information) */
   Upvaldesc *upvalues;  /* upvalue information */
   struct LClosure *cache;  /* last-created closure with this prototype */
-  TString  *source;  /* used for debug information */
+  TString  *source;  /* used for debug information  调试信息*/
   GCObject *gclist;
 } Proto;
 

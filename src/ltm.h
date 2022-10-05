@@ -1,6 +1,6 @@
 /*
 ** $Id: ltm.h,v 2.22.1.1 2017/04/19 17:20:42 roberto Exp $
-** Tag methods
+** Tag methods 魔术方法 metatable
 ** See Copyright Notice in lua.h
 */
 
@@ -40,7 +40,7 @@ typedef enum {
   TM_LE,
   TM_CONCAT,
   TM_CALL,
-  TM_N		/* number of elements in the enum */
+  TM_N		/* number of elements in the enum 获取枚举的长度 */
 } TMS;
 
 

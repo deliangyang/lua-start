@@ -133,6 +133,7 @@ typedef struct CallInfo {
 
 /*
 ** 'global state', shared by all threads of this state
+** 全局状态，所有线程共享状态
 */
 typedef struct global_State {
   lua_Alloc frealloc;  /* function to reallocate memory */
@@ -161,9 +162,9 @@ typedef struct global_State {
   struct lua_State *twups;  /* list of threads with open upvalues */
   unsigned int gcfinnum;  /* number of finalizers to call in each GC step */
   int gcpause;  /* size of pause between successive GCs */
-  int gcstepmul;  /* GC 'granularity' */
+  int gcstepmul;  /* GC 'granularity' 垃圾回收粒度 */
   lua_CFunction panic;  /* to be called in unprotected errors */
-  struct lua_State *mainthread;
+  struct lua_State *mainthread;   // 主线程
   const lua_Number *version;  /* pointer to version number */
   TString *memerrmsg;  /* memory-error message */
   TString *tmname[TM_N];  /* array with tag-method names */
@@ -180,7 +181,7 @@ struct lua_State {
   unsigned short nci;  /* number of items in 'ci' list */
   lu_byte status;
   StkId top;  /* first free slot in the stack */
-  global_State *l_G;
+  global_State *l_G;            // 全局状态
   CallInfo *ci;  /* call info for current function */
   const Instruction *oldpc;  /* last pc traced */
   StkId stack_last;  /* last free slot in the stack */

@@ -10,3 +10,5 @@
 !/tests/*.lua
 
 /**/*.out
+src/lua
+src/luac

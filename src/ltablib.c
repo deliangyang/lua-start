@@ -1,6 +1,6 @@
 /*
 ** $Id: ltablib.c,v 1.93.1.1 2017/04/19 17:20:42 roberto Exp $
-** Library for Table Manipulation
+** Library for Table Manipulation 表操作
 ** See Copyright Notice in lua.h
 */
 
