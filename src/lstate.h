@@ -177,36 +177,37 @@ typedef struct global_State {
 ** 'per thread' state
 */
 struct lua_State {
-  CommonHeader;
+  CommonHeader;     // 公共头
   unsigned short nci;  /* number of items in 'ci' list */
   lu_byte status;
-  StkId top;  /* first free slot in the stack */
+  StkId top;  /* first free slot in the stack 栈的第一个槽 */
   global_State *l_G;            // 全局状态
-  CallInfo *ci;  /* call info for current function */
-  const Instruction *oldpc;  /* last pc traced */
-  StkId stack_last;  /* last free slot in the stack */
-  StkId stack;  /* stack base */
+  CallInfo *ci;  /* call info for current function 当前函数的调用信息 */
+  const Instruction *oldpc;  /* last pc traced 上一个pc追踪 */
+  StkId stack_last;  /* last free slot in the stack 最后一个空闲的槽 */
+  StkId stack;  /* stack base 基础栈 */
   UpVal *openupval;  /* list of open upvalues in this stack */
-  GCObject *gclist;
+  GCObject *gclist;     // gc列表
   struct lua_State *twups;  /* list of threads with open upvalues */
   struct lua_longjmp *errorJmp;  /* current error recover point */
   CallInfo base_ci;  /* CallInfo for first level (C calling Lua) */
-  volatile lua_Hook hook;
+  volatile lua_Hook hook;     // 易变的
   ptrdiff_t errfunc;  /* current error handling function (stack index) */
-  int stacksize;
-  int basehookcount;
-  int hookcount;
-  unsigned short nny;  /* number of non-yieldable calls in stack */
+  int stacksize;        // 栈大小
+  int basehookcount;    // 基础hook计数器
+  int hookcount;     // hook计数器
+  unsigned short nny;  /* number of non-yieldable calls in stack 堆栈中不可迭代的调用数 */
   unsigned short nCcalls;  /* number of nested C calls 嵌套最深为200 */
   l_signalT hookmask;
   lu_byte allowhook;
 };
 
 
-#define G(L)	(L->l_G)
+#define G(L)	(L->l_G)      // 全局状态
 
 
 /*
+** 
 ** Union of all collectable objects (only for conversions)
 */
 union GCUnion {
