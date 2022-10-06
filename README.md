@@ -47,3 +47,8 @@ parse完毕之后等到AST，一个先进的编译器应该包含趣多的步骤
 1. sp stack pointer 栈指针
 2. ip Instruction pointer 指令指针
 3. pc 
+
+### gdb调试
+```
+https://interrupt.memfault.com/blog/automate-debugging-with-gdb-python-api
+```

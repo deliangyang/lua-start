@@ -790,9 +790,9 @@ void luaV_execute (lua_State *L) {
   CallInfo *ci = L->ci;
   LClosure *cl;
   TValue *k;
-  StkId base;
+  StkId base;       // 基址
   ci->callstatus |= CIST_FRESH;  /* fresh invocation of 'luaV_execute" */
- newframe:  /* reentry point when frame changes (call/return) */
+ newframe:  /* reentry point when frame changes (call/return) 当帧改变时重入点（调用或者返回）  */
   lua_assert(ci == L->ci);
   cl = clLvalue(ci->func);  /* local reference to function's closure */
   k = cl->p->k;  /* local reference to function's constant table */
@@ -867,7 +867,7 @@ void luaV_execute (lua_State *L) {
         settableProtected(L, ra, rb, rc);
         vmbreak;
       }
-      vmcase(OP_NEWTABLE) {         // 创建一个table
+      vmcase(OP_NEWTABLE) {         // 创建一个table，表的数组和哈希初始值大小分别是B、C
         int b = GETARG_B(i);
         int c = GETARG_C(i);
         Table *t = luaH_new(L);
@@ -877,7 +877,7 @@ void luaV_execute (lua_State *L) {
         checkGC(L, ra + 1);       // 检查gc
         vmbreak;
       }
-      vmcase(OP_SELF) {
+      vmcase(OP_SELF) {         // 为了支持面向对象的成员函数的写法，如self::func()，将R（B）表设置给R（A+1），相当于函数的第一个参数，从R（B）表中取出函数给R（A），函数Ready
         const TValue *aux;
         StkId rb = RB(i);             
         TValue *rc = RKC(i);
@@ -1081,11 +1081,11 @@ void luaV_execute (lua_State *L) {
         L->top = ci->top;  /* restore top 返回顶部 */
         vmbreak;
       }
-      vmcase(OP_JMP) {            // 跳转
+      vmcase(OP_JMP) {            // 无条件跳转，
         dojump(ci, i, 0);
         vmbreak;
       }
-      vmcase(OP_EQ) {               //  equal
+      vmcase(OP_EQ) {               //  条件跳转 equal
         TValue *rb = RKB(i);
         TValue *rc = RKC(i);
         Protect(
@@ -1114,7 +1114,7 @@ void luaV_execute (lua_State *L) {
         )
         vmbreak;
       }
-      vmcase(OP_TEST) {         // if not (R(A) != C) then pc++
+      vmcase(OP_TEST) {         // if not (R(A) != C) then pc++，条件测试，R(A)的bool值如果不等于C，则跳转到下一条指令
         if (GETARG_C(i) ? l_isfalse(ra) : !l_isfalse(ra))
             ci->u.l.savedpc++;
           else
@@ -1131,7 +1131,7 @@ void luaV_execute (lua_State *L) {
         }
         vmbreak;
       }
-      vmcase(OP_CALL) {
+      vmcase(OP_CALL) {               // 函数调用语句
         int b = GETARG_B(i);
         int nresults = GETARG_C(i) - 1;
         if (b != 0) L->top = ra+b;  /* else previous instruction set top */
@@ -1146,7 +1146,7 @@ void luaV_execute (lua_State *L) {
         }
         vmbreak;
       }
-      vmcase(OP_TAILCALL) {
+      vmcase(OP_TAILCALL) {         // 函数尾调用
         int b = GETARG_B(i);
         if (b != 0) L->top = ra+b;  /* else previous instruction set top */
         lua_assert(GETARG_C(i) - 1 == LUA_MULTRET);
@@ -1177,7 +1177,7 @@ void luaV_execute (lua_State *L) {
         }
         vmbreak;
       }
-      vmcase(OP_RETURN) {           // return
+      vmcase(OP_RETURN) {           // return，返回语句
         int b = GETARG_B(i);
         if (cl->p->sizep > 0) luaF_close(L, base);
         b = luaD_poscall(L, ci, ra, (b != 0 ? b - 1 : cast_int(L->top - ra)));
@@ -1296,7 +1296,7 @@ void luaV_execute (lua_State *L) {
         checkGC(L, ra + 1);
         vmbreak;
       }
-      vmcase(OP_VARARG) {               // 变量参数
+      vmcase(OP_VARARG) {               // 变量参数赋值
         int b = GETARG_B(i) - 1;  /* required results */
         int j;
         int n = cast_int(base - ci->func) - cl->p->numparams - 1;
@@ -1314,7 +1314,7 @@ void luaV_execute (lua_State *L) {
           setnilvalue(ra + j);
         vmbreak;
       }
-      vmcase(OP_EXTRAARG) {       // 退出
+      vmcase(OP_EXTRAARG) {       // 前一条指令的附加参数
         lua_assert(0);
         vmbreak;
       }

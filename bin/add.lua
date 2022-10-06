@@ -6,13 +6,17 @@
 -- To change this template use File | Settings | File Templates.
 --
 
-function add(a, b)
-    return a + b
-end
+local c = 10
+local a = 3 + c
 
-print(add(2, 5))
+print(a)
+-- function add(a, b)
+--     return a + b
+-- end
+
+-- print(add(2, 5))
 
 
 
-local json = require "json"
-print(json.stringify({"a", "b"}))
+-- local json = require "json"
+-- print(json.stringify({"a", "b"}))

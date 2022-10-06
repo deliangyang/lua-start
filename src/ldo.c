@@ -420,7 +420,7 @@ int luaD_precall (lua_State *L, StkId func, int nresults) {
     case LUA_TLCF:  /* light C function */
       f = fvalue(func);
      Cfunc: {
-      int n;  /* number of returns */
+      int n;  /* number of returns 返回值的数量 */
       checkstackp(L, LUA_MINSTACK, func);  /* ensure minimum stack size */
       ci = next_ci(L);  /* now 'enter' new function */
       ci->nresults = nresults;
@@ -434,7 +434,7 @@ int luaD_precall (lua_State *L, StkId func, int nresults) {
       n = (*f)(L);  /* do the actual call */        // 实际调用方法
       lua_lock(L);
       api_checknelems(L, n);
-      luaD_poscall(L, ci, L->top - n, n);
+      luaD_poscall(L, ci, L->top - n, n);    // 
       return 1;
     }
     case LUA_TLCL: {  /* Lua function: prepare its call */
