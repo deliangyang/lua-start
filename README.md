@@ -51,4 +51,6 @@ parse完毕之后等到AST，一个先进的编译器应该包含趣多的步骤
 ### gdb调试
 ```
 https://interrupt.memfault.com/blog/automate-debugging-with-gdb-python-api
+
+https://sourceware.org/gdb/onlinedocs/gdb/Types-In-Python.html#Types-In-Python
 ```
