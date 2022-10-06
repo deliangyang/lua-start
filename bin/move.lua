@@ -1,10 +1,3 @@
-local a = 3
-print(a)
+local a = 1
 
-local function test()
-  local b = 3
-  local c = a +b
-  print(c)
-end
-
-test()
+local b = a

@@ -209,14 +209,15 @@ struct lua_State {
 /*
 ** 
 ** Union of all collectable objects (only for conversions)
+** gc 也可以回收？
 */
 union GCUnion {
   GCObject gc;  /* common header */
-  struct TString ts;
-  struct Udata u;
-  union Closure cl;
-  struct Table h;
-  struct Proto p;
+  struct TString ts;    // 字符串
+  struct Udata u;       // full userdata
+  union Closure cl;     // 闭包
+  struct Table h;       // 表
+  struct Proto p;       // lua函数协议描述
   struct lua_State th;  /* thread */
 };
 

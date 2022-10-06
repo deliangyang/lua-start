@@ -744,6 +744,7 @@ void luaV_finishOp (lua_State *L) {
 #define donextjump(ci)	{ i = *ci->u.l.savedpc; dojump(ci, i, 1); }
 
 
+// 保护什么？执行一个代码块，记录当前的基位
 #define Protect(x)	{ {x;}; base = ci->u.l.base; }
 
 #define checkGC(L,c)  \
@@ -799,15 +800,14 @@ void luaV_execute (lua_State *L) {
   /* main loop of interpreter */
   for (;;) {
     Instruction i;          // 字节码
-    StkId ra;               // 栈元素索引
+    StkId ra;               // ra寄存器？会在vmfetch()中赋值
     vmfetch();          // 获取pc地址指向的值
-    printf("%d\n", i);
     vmdispatch (GET_OPCODE(i)) {        // 拿到OP_Code
-      vmcase(OP_MOVE) {                 // op_move
+      vmcase(OP_MOVE) {                 // op_move 将B寄存器的值赋值给A寄存器 local a = 1; local b = a;
         setobjs2s(L, ra, RB(i));
         vmbreak;
       }
-      vmcase(OP_LOADK) {
+      vmcase(OP_LOADK) {                // 将Bx索引对应的常量赋值给A寄存器 local a = 1;
         TValue *rb = k + GETARG_Bx(i);
         setobj2s(L, ra, rb);
         vmbreak;
@@ -819,26 +819,26 @@ void luaV_execute (lua_State *L) {
         setobj2s(L, ra, rb);
         vmbreak;
       }
-      vmcase(OP_LOADBOOL) {
-        setbvalue(ra, GETARG_B(i));
-        if (GETARG_C(i)) ci->u.l.savedpc++;  /* skip next instruction (if C) */
+      vmcase(OP_LOADBOOL) {                   // 设置bool值
+        setbvalue(ra, GETARG_B(i));           // 将参数b作为bool值赋值给A寄存器
+        if (GETARG_C(i)) ci->u.l.savedpc++;  /* skip next instruction (if C) 如果c参数为true，跳到下一个指令 */
         vmbreak;
       }
-      vmcase(OP_LOADNIL) {
-        int b = GETARG_B(i);
+      vmcase(OP_LOADNIL) {                  // 从A寄存器开始连续的b个寄存器赋值为nil
+        int b = GETARG_B(i);                // 获取b个寄存器
         do {
-          setnilvalue(ra++);
+          setnilvalue(ra++);                // 赋值为nil  settt_(nil)
         } while (b--);
         vmbreak;
       }
-      vmcase(OP_GETUPVAL) {
-        int b = GETARG_B(i);
+      vmcase(OP_GETUPVAL) {                 // 
+        int b = GETARG_B(i);                // 获取参数b对应寄存器的值
         setobj2s(L, ra, cl->upvals[b]->v);
         vmbreak;
       }
-      vmcase(OP_GETTABUP) {
-        TValue *upval = cl->upvals[GETARG_B(i)]->v;
-        TValue *rc = RKC(i);
+      vmcase(OP_GETTABUP) {           
+        TValue *upval = cl->upvals[GETARG_B(i)]->v;     // b 参数作为upvalue的索引，获取b参数对应的vpvalue值，然后设置到A寄存器上
+        TValue *rc = RKC(i);                            // 寄存器c
         gettableProtected(L, upval, rc, ra);
         vmbreak;
       }
@@ -867,19 +867,19 @@ void luaV_execute (lua_State *L) {
         settableProtected(L, ra, rb, rc);
         vmbreak;
       }
-      vmcase(OP_NEWTABLE) {
+      vmcase(OP_NEWTABLE) {         // 创建一个table
         int b = GETARG_B(i);
         int c = GETARG_C(i);
         Table *t = luaH_new(L);
-        sethvalue(L, ra, t);
-        if (b != 0 || c != 0)
+        sethvalue(L, ra, t);      // 将table的值赋值给寄存器a
+        if (b != 0 || c != 0)     // 如果参数b，c不为0，重置table的大小
           luaH_resize(L, t, luaO_fb2int(b), luaO_fb2int(c));
-        checkGC(L, ra + 1);
+        checkGC(L, ra + 1);       // 检查gc
         vmbreak;
       }
       vmcase(OP_SELF) {
         const TValue *aux;
-        StkId rb = RB(i);
+        StkId rb = RB(i);             
         TValue *rc = RKC(i);
         TString *key = tsvalue(rc);  /* key must be a string */
         setobjs2s(L, ra + 1, rb);
@@ -942,7 +942,7 @@ void luaV_execute (lua_State *L) {
         else { Protect(luaT_trybinTM(L, rb, rc, ra, TM_DIV)); }
         vmbreak;
       }
-      vmcase(OP_BAND) {
+      vmcase(OP_BAND) {   // bit and
         TValue *rb = RKB(i);
         TValue *rc = RKC(i);
         lua_Integer ib; lua_Integer ic;
@@ -952,7 +952,7 @@ void luaV_execute (lua_State *L) {
         else { Protect(luaT_trybinTM(L, rb, rc, ra, TM_BAND)); }
         vmbreak;
       }
-      vmcase(OP_BOR) {
+      vmcase(OP_BOR) {    // bit or
         TValue *rb = RKB(i);
         TValue *rc = RKC(i);
         lua_Integer ib; lua_Integer ic;
@@ -962,7 +962,7 @@ void luaV_execute (lua_State *L) {
         else { Protect(luaT_trybinTM(L, rb, rc, ra, TM_BOR)); }
         vmbreak;
       }
-      vmcase(OP_BXOR) {
+      vmcase(OP_BXOR) {  // bit xor 异或
         TValue *rb = RKB(i);
         TValue *rc = RKC(i);
         lua_Integer ib; lua_Integer ic;
@@ -972,7 +972,7 @@ void luaV_execute (lua_State *L) {
         else { Protect(luaT_trybinTM(L, rb, rc, ra, TM_BXOR)); }
         vmbreak;
       }
-      vmcase(OP_SHL) {
+      vmcase(OP_SHL) {        // 表示<<运算，这是左移运算
         TValue *rb = RKB(i);
         TValue *rc = RKC(i);
         lua_Integer ib; lua_Integer ic;
@@ -982,7 +982,7 @@ void luaV_execute (lua_State *L) {
         else { Protect(luaT_trybinTM(L, rb, rc, ra, TM_SHL)); }
         vmbreak;
       }
-      vmcase(OP_SHR) {
+      vmcase(OP_SHR) {        // 表示>>运算，这是右移运算
         TValue *rb = RKB(i);
         TValue *rc = RKC(i);
         lua_Integer ib; lua_Integer ic;
@@ -992,7 +992,7 @@ void luaV_execute (lua_State *L) {
         else { Protect(luaT_trybinTM(L, rb, rc, ra, TM_SHR)); }
         vmbreak;
       }
-      vmcase(OP_MOD) {
+      vmcase(OP_MOD) {      // % 取模
         TValue *rb = RKB(i);
         TValue *rc = RKC(i);
         lua_Number nb; lua_Number nc;
@@ -1022,7 +1022,7 @@ void luaV_execute (lua_State *L) {
         else { Protect(luaT_trybinTM(L, rb, rc, ra, TM_IDIV)); }
         vmbreak;
       }
-      vmcase(OP_POW) {
+      vmcase(OP_POW) {              // pow ^
         TValue *rb = RKB(i);
         TValue *rc = RKC(i);
         lua_Number nb; lua_Number nc;
@@ -1032,7 +1032,7 @@ void luaV_execute (lua_State *L) {
         else { Protect(luaT_trybinTM(L, rb, rc, ra, TM_POW)); }
         vmbreak;
       }
-      vmcase(OP_UNM) {
+      vmcase(OP_UNM) {                      // -值，去负值
         TValue *rb = RB(i);
         lua_Number nb;
         if (ttisinteger(rb)) {
@@ -1047,45 +1047,45 @@ void luaV_execute (lua_State *L) {
         }
         vmbreak;
       }
-      vmcase(OP_BNOT) {
-        TValue *rb = RB(i);
-        lua_Integer ib;
-        if (tointeger(rb, &ib)) {
-          setivalue(ra, intop(^, ~l_castS2U(0), ib));
+      vmcase(OP_BNOT) {     // ~
+        TValue *rb = RB(i);     // 获取b寄存器
+        lua_Integer ib;         // 声明一个变量ib
+        if (tointeger(rb, &ib)) {     // b寄存器的值赋值给ib
+          setivalue(ra, intop(^, ~l_castS2U(0), ib));   // 将结果赋值给a寄存器
         }
         else {
           Protect(luaT_trybinTM(L, rb, rb, ra, TM_BNOT));
         }
         vmbreak;
       }
-      vmcase(OP_NOT) {
+      vmcase(OP_NOT) {          // not b
         TValue *rb = RB(i);
         int res = l_isfalse(rb);  /* next assignment may change this value */
         setbvalue(ra, res);
         vmbreak;
       }
-      vmcase(OP_LEN) {
+      vmcase(OP_LEN) {              // b寄存器的值
         Protect(luaV_objlen(L, ra, RB(i)));
         vmbreak;
       }
-      vmcase(OP_CONCAT) {
-        int b = GETARG_B(i);
-        int c = GETARG_C(i);
+      vmcase(OP_CONCAT) {           // .. 拼接 R(B) .. .. .. R(C)
+        int b = GETARG_B(i);        // 获取参数b
+        int c = GETARG_C(i);        // 获取参数c
         StkId rb;
         L->top = base + c + 1;  /* mark the end of concat operands */
         Protect(luaV_concat(L, c - b + 1));
         ra = RA(i);  /* 'luaV_concat' may invoke TMs and move the stack */
         rb = base + b;
-        setobjs2s(L, ra, rb);
+        setobjs2s(L, ra, rb);       // 将b寄存器的值赋值给a寄存器
         checkGC(L, (ra >= rb ? ra + 1 : rb));
-        L->top = ci->top;  /* restore top */
+        L->top = ci->top;  /* restore top 返回顶部 */
         vmbreak;
       }
-      vmcase(OP_JMP) {
+      vmcase(OP_JMP) {            // 跳转
         dojump(ci, i, 0);
         vmbreak;
       }
-      vmcase(OP_EQ) {
+      vmcase(OP_EQ) {               //  equal
         TValue *rb = RKB(i);
         TValue *rc = RKC(i);
         Protect(
@@ -1096,7 +1096,7 @@ void luaV_execute (lua_State *L) {
         )
         vmbreak;
       }
-      vmcase(OP_LT) {
+      vmcase(OP_LT) {         // less then
         Protect(
           if (luaV_lessthan(L, RKB(i), RKC(i)) != GETARG_A(i))
             ci->u.l.savedpc++;
@@ -1105,7 +1105,7 @@ void luaV_execute (lua_State *L) {
         )
         vmbreak;
       }
-      vmcase(OP_LE) {
+      vmcase(OP_LE) {           // less equal
         Protect(
           if (luaV_lessequal(L, RKB(i), RKC(i)) != GETARG_A(i))
             ci->u.l.savedpc++;
@@ -1114,7 +1114,7 @@ void luaV_execute (lua_State *L) {
         )
         vmbreak;
       }
-      vmcase(OP_TEST) {
+      vmcase(OP_TEST) {         // if not (R(A) != C) then pc++
         if (GETARG_C(i) ? l_isfalse(ra) : !l_isfalse(ra))
             ci->u.l.savedpc++;
           else
@@ -1177,7 +1177,7 @@ void luaV_execute (lua_State *L) {
         }
         vmbreak;
       }
-      vmcase(OP_RETURN) {
+      vmcase(OP_RETURN) {           // return
         int b = GETARG_B(i);
         if (cl->p->sizep > 0) luaF_close(L, base);
         b = luaD_poscall(L, ci, ra, (b != 0 ? b - 1 : cast_int(L->top - ra)));
@@ -1191,7 +1191,7 @@ void luaV_execute (lua_State *L) {
           goto newframe;  /* restart luaV_execute over new Lua function */
         }
       }
-      vmcase(OP_FORLOOP) {
+      vmcase(OP_FORLOOP) {      // 循环
         if (ttisinteger(ra)) {  /* integer loop? */
           lua_Integer step = ivalue(ra + 2);
           lua_Integer idx = intop(+, ivalue(ra), step); /* increment index */
@@ -1243,7 +1243,7 @@ void luaV_execute (lua_State *L) {
         ci->u.l.savedpc += GETARG_sBx(i);
         vmbreak;
       }
-      vmcase(OP_TFORCALL) {
+      vmcase(OP_TFORCALL) {           // 两个指令实现泛型的for循环
         StkId cb = ra + 3;  /* call base */
         setobjs2s(L, cb+2, ra+2);
         setobjs2s(L, cb+1, ra+1);
@@ -1296,7 +1296,7 @@ void luaV_execute (lua_State *L) {
         checkGC(L, ra + 1);
         vmbreak;
       }
-      vmcase(OP_VARARG) {
+      vmcase(OP_VARARG) {               // 变量参数
         int b = GETARG_B(i) - 1;  /* required results */
         int j;
         int n = cast_int(base - ci->func) - cl->p->numparams - 1;

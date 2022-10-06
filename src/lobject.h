@@ -75,6 +75,9 @@ typedef struct GCObject GCObject;
 /*
 ** Common Header for all collectable objects (in macro form, to be
 ** included in other objects)
+** next 回收对象放链表里
+** tt 字段类型
+** marked 标记回收颜色
 */
 #define CommonHeader	GCObject *next; lu_byte tt; lu_byte marked
 
@@ -98,18 +101,18 @@ struct GCObject {
 ** Union of all Lua values
 */
 typedef union Value {
-  GCObject *gc;    /* collectable objects */
-  void *p;         /* light userdata */
-  int b;           /* booleans */
-  lua_CFunction f; /* light C functions */
-  lua_Integer i;   /* integer numbers */
-  lua_Number n;     /* float numbers */
+  GCObject *gc;    /* collectable objects 存储table、thread、closure、string需要内存管理垃圾回收的类型 */
+  void *p;         /* light userdata C指针 */
+  int b;           /* booleans 布尔类型 true、false */
+  lua_CFunction f; /* light C functions 函数存储 */
+  lua_Integer i;   /* integer numbers 存 int 整型 */
+  lua_Number n;     /* float numbers 存储 double浮点值 */
 } Value;
 
-
+// 入栈数据 value_ 为数值，tt_ 为数值类型
 #define TValuefields	Value value_; int tt_
 
-
+// 入栈数据
 typedef struct lua_TValue {
   TValuefields;
 } TValue;
@@ -403,12 +406,13 @@ typedef struct LocVar {
 
 /*
 ** Function Prototypes
+** 函数协议、原型
 */
 typedef struct Proto {
   CommonHeader;
-  lu_byte numparams;  /* number of fixed parameters */
-  lu_byte is_vararg;
-  lu_byte maxstacksize;  /* number of registers needed by this function */
+  lu_byte numparams;  /* number of fixed parameters 固定参数 */
+  lu_byte is_vararg;  // 是否是变量参数？
+  lu_byte maxstacksize;  /* number of registers needed by this function 函数所需要的最大寄存器数？ */
   int sizeupvalues;  /* size of 'upvalues' */
   int sizek;  /* size of 'k' */
   int sizecode;
@@ -421,11 +425,11 @@ typedef struct Proto {
   Instruction *code;  /* opcodes opcode数组指令 */
   struct Proto **p;  /* functions defined inside the function */
   int *lineinfo;  /* map from opcodes to source lines (debug information) */
-  LocVar *locvars;  /* information about local variables (debug information) */
-  Upvaldesc *upvalues;  /* upvalue information */
-  struct LClosure *cache;  /* last-created closure with this prototype */
+  LocVar *locvars;  /* information about local variables (debug information) 局部变量 */
+  Upvaldesc *upvalues;  /* upvalue information 上值信息 */
+  struct LClosure *cache;  /* last-created closure with this prototype 最后创建的闭包 */
   TString  *source;  /* used for debug information  调试信息*/
-  GCObject *gclist;
+  GCObject *gclist; // gc链表
 } Proto;
 
 
@@ -437,7 +441,7 @@ typedef struct UpVal UpVal;
 
 
 /*
-** Closures
+** Closures 闭包
 */
 
 #define ClosureHeader \
@@ -445,15 +449,15 @@ typedef struct UpVal UpVal;
 
 typedef struct CClosure {
   ClosureHeader;
-  lua_CFunction f;
-  TValue upvalue[1];  /* list of upvalues */
+  lua_CFunction f;      // 闭包函数
+  TValue upvalue[1];  /* list of upvalues 上值？ */
 } CClosure;
 
 
 typedef struct LClosure {
   ClosureHeader;
-  struct Proto *p;
-  UpVal *upvals[1];  /* list of upvalues */
+  struct Proto *p;  // 函数协议
+  UpVal *upvals[1];  /* list of upvalues 上值 */
 } LClosure;
 
 
@@ -471,7 +475,6 @@ typedef union Closure {
 /*
 ** Tables
 */
-
 typedef union TKey {
   struct {
     TValuefields;

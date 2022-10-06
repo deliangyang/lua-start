@@ -252,14 +252,20 @@ static void close_state (lua_State *L) {
 }
 
 
+/**
+ * @brief 创建一个线程
+ * 
+ * @param L 
+ * @return LUA_API* 
+ */
 LUA_API lua_State *lua_newthread (lua_State *L) {
-  global_State *g = G(L);
+  global_State *g = G(L);     // 获取全局状态
   lua_State *L1;
   lua_lock(L);
-  luaC_checkGC(L);
+  luaC_checkGC(L);     // 检查gc
   /* create new thread */
-  L1 = &cast(LX *, luaM_newobject(L, LUA_TTHREAD, sizeof(LX)))->l;
-  L1->marked = luaC_white(g);
+  L1 = &cast(LX *, luaM_newobject(L, LUA_TTHREAD, sizeof(LX)))->l;      // L1 = &(LX *)(luaM_newobject(L, LUA_TTHREAD, sizeof(LX)))->l)
+  L1->marked = luaC_white(g);   // 标记为白色
   L1->tt = LUA_TTHREAD;
   /* link it on list 'allgc' */
   L1->next = g->allgc;
@@ -282,6 +288,12 @@ LUA_API lua_State *lua_newthread (lua_State *L) {
 }
 
 
+/**
+ * @brief 释放线程
+ * 
+ * @param L 
+ * @param L1 
+ */
 void luaE_freethread (lua_State *L, lua_State *L1) {
   LX *l = fromstate(L1);
   luaF_close(L1, L1->stack);  /* close all upvalues for this thread */

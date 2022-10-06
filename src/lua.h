@@ -43,7 +43,7 @@
 #define lua_upvalueindex(i)	(LUA_REGISTRYINDEX - (i))
 
 
-/* thread status */
+/* thread status 线程状态 */
 #define LUA_OK		0
 #define LUA_YIELD	1
 #define LUA_ERRRUN	2
@@ -57,7 +57,7 @@ typedef struct lua_State lua_State;
 
 
 /*
-** basic types
+** basic types 基础类型
 */
 #define LUA_TNONE		(-1)
 

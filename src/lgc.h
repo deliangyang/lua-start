@@ -110,7 +110,9 @@
 ** Does one step of collection when debt becomes positive. 'pre'/'pos'
 ** allows some adjustments to be done only when needed. macro
 ** 'condchangemem' is used only for heavy tests (forcing a full
-** GC cycle on every opportunity)
+** GC cycle on every opportunity 机会)
+** GCdebt gc债务？如果gc债务>0，执行pre，当回收正在执行时实施gc，执行pos
+** 修改member
 */
 #define luaC_condGC(L,pre,pos) \
 	{ if (G(L)->GCdebt > 0) { pre; luaC_step(L); pos;}; \
