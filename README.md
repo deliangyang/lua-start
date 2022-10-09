@@ -46,7 +46,7 @@ parse完毕之后得到AST，一个先进的编译器应该包含更多的步骤
 ## 名词解释
 1. sp stack pointer 栈指针
 2. ip Instruction pointer 指令指针
-3. pc 
+3. pc 指针计数器
 
 ### gdb调试
 ```
