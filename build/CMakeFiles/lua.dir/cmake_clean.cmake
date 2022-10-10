@@ -55,6 +55,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/lua.dir/src/ltable.c.o.d"
   "CMakeFiles/lua.dir/src/ltablib.c.o"
   "CMakeFiles/lua.dir/src/ltablib.c.o.d"
+  "CMakeFiles/lua.dir/src/ltestlib.c.o"
+  "CMakeFiles/lua.dir/src/ltestlib.c.o.d"
   "CMakeFiles/lua.dir/src/ltm.c.o"
   "CMakeFiles/lua.dir/src/ltm.c.o.d"
   "CMakeFiles/lua.dir/src/lua.c.o"

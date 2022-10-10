@@ -461,10 +461,24 @@ CMakeFiles/lua.dir/src/ltablib.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lua.dir/src/ltablib.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ydl/work/c-dev/lua-start/src/ltablib.c -o CMakeFiles/lua.dir/src/ltablib.c.s
 
+CMakeFiles/lua.dir/src/ltestlib.c.o: CMakeFiles/lua.dir/flags.make
+CMakeFiles/lua.dir/src/ltestlib.c.o: ../src/ltestlib.c
+CMakeFiles/lua.dir/src/ltestlib.c.o: CMakeFiles/lua.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/lua.dir/src/ltestlib.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua.dir/src/ltestlib.c.o -MF CMakeFiles/lua.dir/src/ltestlib.c.o.d -o CMakeFiles/lua.dir/src/ltestlib.c.o -c /home/ydl/work/c-dev/lua-start/src/ltestlib.c
+
+CMakeFiles/lua.dir/src/ltestlib.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/lua.dir/src/ltestlib.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ydl/work/c-dev/lua-start/src/ltestlib.c > CMakeFiles/lua.dir/src/ltestlib.c.i
+
+CMakeFiles/lua.dir/src/ltestlib.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lua.dir/src/ltestlib.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ydl/work/c-dev/lua-start/src/ltestlib.c -o CMakeFiles/lua.dir/src/ltestlib.c.s
+
 CMakeFiles/lua.dir/src/ltm.c.o: CMakeFiles/lua.dir/flags.make
 CMakeFiles/lua.dir/src/ltm.c.o: ../src/ltm.c
 CMakeFiles/lua.dir/src/ltm.c.o: CMakeFiles/lua.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/lua.dir/src/ltm.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/lua.dir/src/ltm.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua.dir/src/ltm.c.o -MF CMakeFiles/lua.dir/src/ltm.c.o.d -o CMakeFiles/lua.dir/src/ltm.c.o -c /home/ydl/work/c-dev/lua-start/src/ltm.c
 
 CMakeFiles/lua.dir/src/ltm.c.i: cmake_force
@@ -478,7 +492,7 @@ CMakeFiles/lua.dir/src/ltm.c.s: cmake_force
 CMakeFiles/lua.dir/src/lua.c.o: CMakeFiles/lua.dir/flags.make
 CMakeFiles/lua.dir/src/lua.c.o: ../src/lua.c
 CMakeFiles/lua.dir/src/lua.c.o: CMakeFiles/lua.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/lua.dir/src/lua.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/lua.dir/src/lua.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua.dir/src/lua.c.o -MF CMakeFiles/lua.dir/src/lua.c.o.d -o CMakeFiles/lua.dir/src/lua.c.o -c /home/ydl/work/c-dev/lua-start/src/lua.c
 
 CMakeFiles/lua.dir/src/lua.c.i: cmake_force
@@ -492,7 +506,7 @@ CMakeFiles/lua.dir/src/lua.c.s: cmake_force
 CMakeFiles/lua.dir/src/luac.c.o: CMakeFiles/lua.dir/flags.make
 CMakeFiles/lua.dir/src/luac.c.o: ../src/luac.c
 CMakeFiles/lua.dir/src/luac.c.o: CMakeFiles/lua.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/lua.dir/src/luac.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/lua.dir/src/luac.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua.dir/src/luac.c.o -MF CMakeFiles/lua.dir/src/luac.c.o.d -o CMakeFiles/lua.dir/src/luac.c.o -c /home/ydl/work/c-dev/lua-start/src/luac.c
 
 CMakeFiles/lua.dir/src/luac.c.i: cmake_force
@@ -506,7 +520,7 @@ CMakeFiles/lua.dir/src/luac.c.s: cmake_force
 CMakeFiles/lua.dir/src/lundump.c.o: CMakeFiles/lua.dir/flags.make
 CMakeFiles/lua.dir/src/lundump.c.o: ../src/lundump.c
 CMakeFiles/lua.dir/src/lundump.c.o: CMakeFiles/lua.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/lua.dir/src/lundump.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object CMakeFiles/lua.dir/src/lundump.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua.dir/src/lundump.c.o -MF CMakeFiles/lua.dir/src/lundump.c.o.d -o CMakeFiles/lua.dir/src/lundump.c.o -c /home/ydl/work/c-dev/lua-start/src/lundump.c
 
 CMakeFiles/lua.dir/src/lundump.c.i: cmake_force
@@ -520,7 +534,7 @@ CMakeFiles/lua.dir/src/lundump.c.s: cmake_force
 CMakeFiles/lua.dir/src/lutf8lib.c.o: CMakeFiles/lua.dir/flags.make
 CMakeFiles/lua.dir/src/lutf8lib.c.o: ../src/lutf8lib.c
 CMakeFiles/lua.dir/src/lutf8lib.c.o: CMakeFiles/lua.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object CMakeFiles/lua.dir/src/lutf8lib.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building C object CMakeFiles/lua.dir/src/lutf8lib.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua.dir/src/lutf8lib.c.o -MF CMakeFiles/lua.dir/src/lutf8lib.c.o.d -o CMakeFiles/lua.dir/src/lutf8lib.c.o -c /home/ydl/work/c-dev/lua-start/src/lutf8lib.c
 
 CMakeFiles/lua.dir/src/lutf8lib.c.i: cmake_force
@@ -534,7 +548,7 @@ CMakeFiles/lua.dir/src/lutf8lib.c.s: cmake_force
 CMakeFiles/lua.dir/src/lvm.c.o: CMakeFiles/lua.dir/flags.make
 CMakeFiles/lua.dir/src/lvm.c.o: ../src/lvm.c
 CMakeFiles/lua.dir/src/lvm.c.o: CMakeFiles/lua.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building C object CMakeFiles/lua.dir/src/lvm.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building C object CMakeFiles/lua.dir/src/lvm.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua.dir/src/lvm.c.o -MF CMakeFiles/lua.dir/src/lvm.c.o.d -o CMakeFiles/lua.dir/src/lvm.c.o -c /home/ydl/work/c-dev/lua-start/src/lvm.c
 
 CMakeFiles/lua.dir/src/lvm.c.i: cmake_force
@@ -548,7 +562,7 @@ CMakeFiles/lua.dir/src/lvm.c.s: cmake_force
 CMakeFiles/lua.dir/src/lzio.c.o: CMakeFiles/lua.dir/flags.make
 CMakeFiles/lua.dir/src/lzio.c.o: ../src/lzio.c
 CMakeFiles/lua.dir/src/lzio.c.o: CMakeFiles/lua.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building C object CMakeFiles/lua.dir/src/lzio.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building C object CMakeFiles/lua.dir/src/lzio.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua.dir/src/lzio.c.o -MF CMakeFiles/lua.dir/src/lzio.c.o.d -o CMakeFiles/lua.dir/src/lzio.c.o -c /home/ydl/work/c-dev/lua-start/src/lzio.c
 
 CMakeFiles/lua.dir/src/lzio.c.i: cmake_force
@@ -589,6 +603,7 @@ lua_OBJECTS = \
 "CMakeFiles/lua.dir/src/lstrlib.c.o" \
 "CMakeFiles/lua.dir/src/ltable.c.o" \
 "CMakeFiles/lua.dir/src/ltablib.c.o" \
+"CMakeFiles/lua.dir/src/ltestlib.c.o" \
 "CMakeFiles/lua.dir/src/ltm.c.o" \
 "CMakeFiles/lua.dir/src/lua.c.o" \
 "CMakeFiles/lua.dir/src/luac.c.o" \
@@ -628,6 +643,7 @@ liblua.a: CMakeFiles/lua.dir/src/lstring.c.o
 liblua.a: CMakeFiles/lua.dir/src/lstrlib.c.o
 liblua.a: CMakeFiles/lua.dir/src/ltable.c.o
 liblua.a: CMakeFiles/lua.dir/src/ltablib.c.o
+liblua.a: CMakeFiles/lua.dir/src/ltestlib.c.o
 liblua.a: CMakeFiles/lua.dir/src/ltm.c.o
 liblua.a: CMakeFiles/lua.dir/src/lua.c.o
 liblua.a: CMakeFiles/lua.dir/src/luac.c.o
@@ -637,7 +653,7 @@ liblua.a: CMakeFiles/lua.dir/src/lvm.c.o
 liblua.a: CMakeFiles/lua.dir/src/lzio.c.o
 liblua.a: CMakeFiles/lua.dir/build.make
 liblua.a: CMakeFiles/lua.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Linking C static library liblua.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ydl/work/c-dev/lua-start/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Linking C static library liblua.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/lua.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/lua.dir/link.txt --verbose=$(VERBOSE)
 

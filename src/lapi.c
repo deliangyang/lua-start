@@ -56,22 +56,28 @@ const char lua_ident[] =
 #define api_checkstackindex(l, i, o)  \
 	api_check(l, isstackindex(i, o), "index not in the stack")
 
-
+/**
+ * @brief 从栈中获取值
+ * 
+ * @param L 
+ * @param idx 索引
+ * @return TValue* 
+ */
 static TValue *index2addr (lua_State *L, int idx) {
   CallInfo *ci = L->ci;
-  if (idx > 0) {
-    TValue *o = ci->func + idx;
+  if (idx > 0) {        // 索引 > 0
+    TValue *o = ci->func + idx;    // func的首地址加索引
     api_check(L, idx <= ci->top - (ci->func + 1), "unacceptable index");
-    if (o >= L->top) return NONVALIDVALUE;
+    if (o >= L->top) return NONVALIDVALUE;      // 如果该值 >= 栈顶，返回无效值
     else return o;
   }
-  else if (!ispseudo(idx)) {  /* negative index */
+  else if (!ispseudo(idx)) {  /* negative index 0 ~ 寄存器的索引 gte 32bit -1000000-1000 ~  other： -15000-1000 */
     api_check(L, idx != 0 && -idx <= L->top - (ci->func + 1), "invalid index");
     return L->top + idx;
   }
-  else if (idx == LUA_REGISTRYINDEX)
+  else if (idx == LUA_REGISTRYINDEX)    // 全局表
     return &G(L)->l_registry;
-  else {  /* upvalues */
+  else {  /* upvalues 的索引 */
     idx = LUA_REGISTRYINDEX - idx;
     api_check(L, idx <= MAXUPVAL + 1, "upvalue index too large");
     if (ttislcf(ci->func))  /* light C function? */
@@ -279,9 +285,15 @@ LUA_API int lua_isnumber (lua_State *L, int idx) {
   return tonumber(o, &n);
 }
 
-
+/**
+ * @brief 
+ * 
+ * @param L 
+ * @param idx 索引位置
+ * @return LUA_API 
+ */
 LUA_API int lua_isstring (lua_State *L, int idx) {
-  const TValue *o = index2addr(L, idx);
+  const TValue *o = index2addr(L, idx);   // 索引转地址，返回对应的值
   return (ttisstring(o) || cvt2str(o));
 }
 
@@ -333,8 +345,9 @@ LUA_API int lua_compare (lua_State *L, int index1, int index2, int op) {
   return i;
 }
 
-
+// change string to number
 LUA_API size_t lua_stringtonumber (lua_State *L, const char *s) {
+  // 取栈顶元素
   size_t sz = luaO_str2num(s, L->top);
   if (sz != 0)
     api_incr_top(L);
@@ -457,7 +470,9 @@ LUA_API void lua_pushnil (lua_State *L) {
 
 LUA_API void lua_pushnumber (lua_State *L, lua_Number n) {
   lua_lock(L);
+  // 将数字压入栈
   setfltvalue(L->top, n);
+  // 增加栈顶的高度
   api_incr_top(L);
   lua_unlock(L);
 }
@@ -944,7 +959,17 @@ static void f_call (lua_State *L, void *ud) {
 }
 
 
-
+/**
+ * @brief 
+ * 
+ * @param L 
+ * @param nargs  参数个数
+ * @param nresults 返回值个数
+ * @param errfunc 错误
+ * @param ctx 连续传递函数上下文
+ * @param k 连续传递函数类型
+ * @return LUA_API 
+ */
 LUA_API int lua_pcallk (lua_State *L, int nargs, int nresults, int errfunc,
                         lua_KContext ctx, lua_KFunction k) {
   struct CallS c;

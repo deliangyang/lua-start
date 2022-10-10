@@ -141,6 +141,11 @@
 },
 {
   "directory": "/home/ydl/work/c-dev/lua-start/build",
+  "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/ltestlib.c.o -c /home/ydl/work/c-dev/lua-start/src/ltestlib.c",
+  "file": "/home/ydl/work/c-dev/lua-start/src/ltestlib.c"
+},
+{
+  "directory": "/home/ydl/work/c-dev/lua-start/build",
   "command": "/usr/bin/cc  -I/home/ydl/work/c-dev/lua-start/./src -g -o CMakeFiles/lua.dir/src/ltm.c.o -c /home/ydl/work/c-dev/lua-start/src/ltm.c",
   "file": "/home/ydl/work/c-dev/lua-start/src/ltm.c"
 },

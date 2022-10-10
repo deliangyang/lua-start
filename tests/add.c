@@ -18,6 +18,7 @@ int main(int argc, char *argv[]) {
     lua_getglobal(l, "test2");
     lua_pushnumber(l, 1);
     lua_pushnumber(l, 2);
+    // 2-将两个参数出栈，0-函数出栈，-1-压入函数的放回结果
     lua_pcall(l, 2, 0, -1);
 
     lua_getglobal(l, "test3");

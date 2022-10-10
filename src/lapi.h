@@ -11,6 +11,7 @@
 #include "llimits.h"
 #include "lstate.h"
 
+// 栈顶++，并且判断 栈的高度必须大于函数调用的高度，否则就是栈溢出
 #define api_incr_top(L)   {L->top++; api_check(L, L->top <= L->ci->top, \
 				"stack overflow");}
 

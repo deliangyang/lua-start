@@ -32,7 +32,7 @@ LUA_A=	liblua.a
 CORE_O=	lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o \
 	lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o \
 	ltm.o lundump.o lvm.o lzio.o
-LIB_O=	lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o \
+LIB_O=	lauxlib.o ltestlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o \
 	lmathlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o loadlib.o linit.o
 BASE_O= $(CORE_O) $(LIB_O) $(MYOBJS)
 
@@ -132,6 +132,7 @@ solaris:
 lapi.o: lapi.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
  lobject.h ltm.h lzio.h lmem.h ldebug.h ldo.h lfunc.h lgc.h lstring.h \
  ltable.h lundump.h lvm.h
+ltestlib.o: ltestlib.c ltestlib.h
 lauxlib.o: lauxlib.c lprefix.h lua.h luaconf.h lauxlib.h
 lbaselib.o: lbaselib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
 lbitlib.o: lbitlib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h

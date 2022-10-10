@@ -36,6 +36,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/ydl/work/c-dev/lua-start/src/lstrlib.c" "CMakeFiles/lua.dir/src/lstrlib.c.o" "gcc" "CMakeFiles/lua.dir/src/lstrlib.c.o.d"
   "/home/ydl/work/c-dev/lua-start/src/ltable.c" "CMakeFiles/lua.dir/src/ltable.c.o" "gcc" "CMakeFiles/lua.dir/src/ltable.c.o.d"
   "/home/ydl/work/c-dev/lua-start/src/ltablib.c" "CMakeFiles/lua.dir/src/ltablib.c.o" "gcc" "CMakeFiles/lua.dir/src/ltablib.c.o.d"
+  "/home/ydl/work/c-dev/lua-start/src/ltestlib.c" "CMakeFiles/lua.dir/src/ltestlib.c.o" "gcc" "CMakeFiles/lua.dir/src/ltestlib.c.o.d"
   "/home/ydl/work/c-dev/lua-start/src/ltm.c" "CMakeFiles/lua.dir/src/ltm.c.o" "gcc" "CMakeFiles/lua.dir/src/ltm.c.o.d"
   "/home/ydl/work/c-dev/lua-start/src/lua.c" "CMakeFiles/lua.dir/src/lua.c.o" "gcc" "CMakeFiles/lua.dir/src/lua.c.o.d"
   "/home/ydl/work/c-dev/lua-start/src/luac.c" "CMakeFiles/lua.dir/src/luac.c.o" "gcc" "CMakeFiles/lua.dir/src/luac.c.o.d"

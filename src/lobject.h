@@ -198,26 +198,31 @@ typedef struct lua_TValue {
 /* Macros to set values */
 #define settt_(o,t)	((o)->tt_=(t))
 
+// set float value
 #define setfltvalue(obj,x) \
   { TValue *io=(obj); val_(io).n=(x); settt_(io, LUA_TNUMFLT); }
 
 #define chgfltvalue(obj,x) \
   { TValue *io=(obj); lua_assert(ttisfloat(io)); val_(io).n=(x); }
 
+// set integer value
 #define setivalue(obj,x) \
   { TValue *io=(obj); val_(io).i=(x); settt_(io, LUA_TNUMINT); }
 
 #define chgivalue(obj,x) \
   { TValue *io=(obj); lua_assert(ttisinteger(io)); val_(io).i=(x); }
 
+// set nil value
 #define setnilvalue(obj) settt_(obj, LUA_TNIL)
 
 #define setfvalue(obj,x) \
   { TValue *io=(obj); val_(io).f=(x); settt_(io, LUA_TLCF); }
 
+// set pointer value
 #define setpvalue(obj,x) \
   { TValue *io=(obj); val_(io).p=(x); settt_(io, LUA_TLIGHTUSERDATA); }
 
+// set boolean value
 #define setbvalue(obj,x) \
   { TValue *io=(obj); val_(io).b=(x); settt_(io, LUA_TBOOLEAN); }
 
@@ -225,21 +230,25 @@ typedef struct lua_TValue {
   { TValue *io = (obj); GCObject *i_g=(x); \
     val_(io).gc = i_g; settt_(io, ctb(i_g->tt)); }
 
+// set string value
 #define setsvalue(L,obj,x) \
   { TValue *io = (obj); TString *x_ = (x); \
     val_(io).gc = obj2gco(x_); settt_(io, ctb(x_->tt)); \
     checkliveness(L,io); }
 
+// set user data value
 #define setuvalue(L,obj,x) \
   { TValue *io = (obj); Udata *x_ = (x); \
     val_(io).gc = obj2gco(x_); settt_(io, ctb(LUA_TUSERDATA)); \
     checkliveness(L,io); }
 
+// set thread value
 #define setthvalue(L,obj,x) \
   { TValue *io = (obj); lua_State *x_ = (x); \
     val_(io).gc = obj2gco(x_); settt_(io, ctb(LUA_TTHREAD)); \
     checkliveness(L,io); }
 
+// set closure value
 #define setclLvalue(L,obj,x) \
   { TValue *io = (obj); LClosure *x_ = (x); \
     val_(io).gc = obj2gco(x_); settt_(io, ctb(LUA_TLCL)); \
@@ -250,6 +259,7 @@ typedef struct lua_TValue {
     val_(io).gc = obj2gco(x_); settt_(io, ctb(LUA_TCCL)); \
     checkliveness(L,io); }
 
+// set table value
 #define sethvalue(L,obj,x) \
   { TValue *io = (obj); Table *x_ = (x); \
     val_(io).gc = obj2gco(x_); settt_(io, ctb(LUA_TTABLE)); \

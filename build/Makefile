@@ -827,6 +827,30 @@ src/ltablib.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lua.dir/build.make CMakeFiles/lua.dir/src/ltablib.c.s
 .PHONY : src/ltablib.c.s
 
+src/ltestlib.o: src/ltestlib.c.o
+.PHONY : src/ltestlib.o
+
+# target to build an object file
+src/ltestlib.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lua.dir/build.make CMakeFiles/lua.dir/src/ltestlib.c.o
+.PHONY : src/ltestlib.c.o
+
+src/ltestlib.i: src/ltestlib.c.i
+.PHONY : src/ltestlib.i
+
+# target to preprocess a source file
+src/ltestlib.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lua.dir/build.make CMakeFiles/lua.dir/src/ltestlib.c.i
+.PHONY : src/ltestlib.c.i
+
+src/ltestlib.s: src/ltestlib.c.s
+.PHONY : src/ltestlib.s
+
+# target to generate assembly for a file
+src/ltestlib.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lua.dir/build.make CMakeFiles/lua.dir/src/ltestlib.c.s
+.PHONY : src/ltestlib.c.s
+
 src/ltm.o: src/ltm.c.o
 .PHONY : src/ltm.o
 
@@ -1096,6 +1120,9 @@ help:
 	@echo "... src/ltablib.o"
 	@echo "... src/ltablib.i"
 	@echo "... src/ltablib.s"
+	@echo "... src/ltestlib.o"
+	@echo "... src/ltestlib.i"
+	@echo "... src/ltestlib.s"
 	@echo "... src/ltm.o"
 	@echo "... src/ltm.i"
 	@echo "... src/ltm.s"

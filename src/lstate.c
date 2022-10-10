@@ -147,10 +147,10 @@ void luaE_shrinkCI (lua_State *L) {
   }
 }
 
-
+// stack_init 栈初始化
 static void stack_init (lua_State *L1, lua_State *L) {
   int i; CallInfo *ci;
-  /* initialize stack array */
+  /* initialize stack array 2 * 20 */ 
   L1->stack = luaM_newvector(L, BASIC_STACK_SIZE, TValue);
   L1->stacksize = BASIC_STACK_SIZE;
   for (i = 0; i < BASIC_STACK_SIZE; i++)
