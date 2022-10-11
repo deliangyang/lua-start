@@ -102,7 +102,7 @@ static int testnext (LexState *ls, int c) {
   else return 0;
 }
 
-
+// 如果token != c，返回错误
 static void check (LexState *ls, int c) {
   if (ls->t.token != c)
     error_expected(ls, c);
@@ -594,7 +594,7 @@ static int block_follow (LexState *ls, int withuntil) {
   }
 }
 
-
+// list 语法
 static void statlist (LexState *ls) {
   /* statlist -> { stat [';'] } */
   while (!block_follow(ls, 1)) {

@@ -116,6 +116,11 @@ enum OpMode {iABC, iABx, iAsBx, iAx};  /* basic instruction format */
 #define SETARG_sBx(i,b)	SETARG_Bx((i),cast(unsigned int, (b)+MAXARG_sBx))
 
 
+// 每个指令占4个字节 4 * 8 = 32bit，低6个比特用于操作码，高26个比特用于操作数
+// iABC 携带A、B、C三个操作数，分别占用8/9/9个比特
+// iABx 可携带A和Bx两个操作数，分别在用8/18个比特
+// iAsBx 可携带A和sBx两个操作数，分别在用8/18个比特
+// iAx 只可以携带一个操作数，占用全部26个比特
 #define CREATE_ABC(o,a,b,c)	((cast(Instruction, o)<<POS_OP) \
 			| (cast(Instruction, a)<<POS_A) \
 			| (cast(Instruction, b)<<POS_B) \
@@ -288,10 +293,16 @@ enum OpArgMask {
 
 LUAI_DDEC const lu_byte luaP_opmodes[NUM_OPCODES];
 
-#define getOpMode(m)	(cast(enum OpMode, luaP_opmodes[m] & 3))
+// #define opmode(t,a,b,c,m) (((t)<<7) | ((a)<<6) | ((b)<<4) | ((c)<<2) | (m))
+// 获取操作模式 enum OpMode(luaP_opmodes[m] & 3), m is opcode 
+#define getOpMode(m)	(cast(enum OpMode, luaP_opmodes[m] & 3))          // 3 => 0b11
+// getBMode 获取B的模式 T A B C
 #define getBMode(m)	(cast(enum OpArgMask, (luaP_opmodes[m] >> 4) & 3))
+// C
 #define getCMode(m)	(cast(enum OpArgMask, (luaP_opmodes[m] >> 2) & 3))
+// 0bxx00000& 0b1000000
 #define testAMode(m)	(luaP_opmodes[m] & (1 << 6))
+// 0bxx000000 & 0b10000000
 #define testTMode(m)	(luaP_opmodes[m] & (1 << 7))
 
 

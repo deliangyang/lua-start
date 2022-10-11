@@ -296,7 +296,7 @@ static int luaK_code (FuncState *fs, Instruction i) {
   /* put new instruction in code array */
   luaM_growvector(fs->ls->L, f->code, fs->pc, f->sizecode, Instruction,
                   MAX_INT, "opcodes");
-  f->code[fs->pc] = i;
+  f->code[fs->pc] = i;      // 将指令压入函数的code栈内
   /* save corresponding line information */
   luaM_growvector(fs->ls->L, f->lineinfo, fs->pc, f->sizelineinfo, int,
                   MAX_INT, "opcodes");
@@ -782,17 +782,17 @@ int luaK_exp2RK (FuncState *fs, expdesc *e) {
 */
 void luaK_storevar (FuncState *fs, expdesc *var, expdesc *ex) {
   switch (var->k) {
-    case VLOCAL: {
+    case VLOCAL: {      // value of local
       freeexp(fs, ex);
       exp2reg(fs, ex, var->u.info);  /* compute 'ex' into proper place */
       return;
     }
-    case VUPVAL: {
+    case VUPVAL: {      // value of upval
       int e = luaK_exp2anyreg(fs, ex);
       luaK_codeABC(fs, OP_SETUPVAL, e, var->u.info, 0);
       break;
     }
-    case VINDEXED: {
+    case VINDEXED: {    // value of indexed
       OpCode op = (var->u.ind.vt == VLOCAL) ? OP_SETTABLE : OP_SETTABUP;
       int e = luaK_exp2RK(fs, ex);
       luaK_codeABC(fs, op, var->u.ind.t, var->u.ind.idx, e);
