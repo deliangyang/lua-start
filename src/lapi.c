@@ -42,7 +42,7 @@ const char lua_ident[] =
 /* corresponding test */
 #define isvalid(o)	((o) != luaO_nilobject)
 
-/* test for pseudo index */
+/* test for pseudo index 伪索引，全局表索引？ */
 #define ispseudo(i)		((i) <= LUA_REGISTRYINDEX)
 
 /* test for upvalue */
@@ -71,7 +71,7 @@ static TValue *index2addr (lua_State *L, int idx) {
     if (o >= L->top) return NONVALIDVALUE;      // 如果该值 >= 栈顶，返回无效值
     else return o;
   }
-  else if (!ispseudo(idx)) {  /* negative index 0 ~ 寄存器的索引 gte 32bit -1000000-1000 ~  other： -15000-1000 */
+  else if (!ispseudo(idx)) {  /* 冒充的？ negative index 0 ~ 寄存器的索引 gte 32bit -1000000-1000 ~  other： -15000-1000 */
     api_check(L, idx != 0 && -idx <= L->top - (ci->func + 1), "invalid index");
     return L->top + idx;
   }
@@ -120,7 +120,7 @@ LUA_API int lua_checkstack (lua_State *L, int n) {
   return res;
 }
 
-
+// lua_xmove 移动
 LUA_API void lua_xmove (lua_State *from, lua_State *to, int n) {
   int i;
   if (from == to) return;
@@ -136,13 +136,16 @@ LUA_API void lua_xmove (lua_State *from, lua_State *to, int n) {
   lua_unlock(to);
 }
 
-
+// panicf是一个panic callback function，其实就是替换G的panic方法
 LUA_API lua_CFunction lua_atpanic (lua_State *L, lua_CFunction panicf) {
   lua_CFunction old;
   lua_lock(L);
+  // 获取老的panic
   old = G(L)->panic;
+  // 赋值新的panicf
   G(L)->panic = panicf;
   lua_unlock(L);
+  // 返回老的panic
   return old;
 }
 
@@ -162,11 +165,12 @@ LUA_API const lua_Number *lua_version (lua_State *L) {
 
 /*
 ** convert an acceptable stack index into an absolute index
+** 将一个可接受的（有效的）栈索引转化为绝对值索引
 */
 LUA_API int lua_absindex (lua_State *L, int idx) {
-  return (idx > 0 || ispseudo(idx))
+  return (idx > 0 || ispseudo(idx))   // 如果索引本身>0,或者为全局表索引，则直接返回自己
          ? idx
-         : cast_int(L->top - L->ci->func) + idx;
+         : cast_int(L->top - L->ci->func) + idx;    // int(L->top - L->ci->func) + idx 栈顶 - 函数的地址 + idx
 }
 
 
@@ -174,7 +178,9 @@ LUA_API int lua_gettop (lua_State *L) {
   return cast_int(L->top - (L->ci->func + 1));
 }
 
-
+// lua_settop sets the top (that is, the number of elements in the statck) to a specific value. 
+// If the previouds top was higher then the new one, the top values are discarded.
+// 如果之前的top比现在的高，则丢弃当前的top
 LUA_API void lua_settop (lua_State *L, int idx) {
   StkId func = L->ci->func;
   lua_lock(L);
@@ -224,25 +230,27 @@ LUA_API void lua_rotate (lua_State *L, int idx, int n) {
   lua_unlock(L);
 }
 
-
+// 复制，将一个fromidx对应的值赋值给toidx
 LUA_API void lua_copy (lua_State *L, int fromidx, int toidx) {
   TValue *fr, *to;
   lua_lock(L);
-  fr = index2addr(L, fromidx);
+  fr = index2addr(L, fromidx);   // 获取对应的值
   to = index2addr(L, toidx);
-  api_checkvalidindex(L, to);
-  setobj(L, to, fr);
+  api_checkvalidindex(L, to);   // 检查to索引的有效性
+  setobj(L, to, fr);            // to = fr
   if (isupvalue(toidx))  /* function upvalue? */
-    luaC_barrier(L, clCvalue(L->ci->func), fr);
+    luaC_barrier(L, clCvalue(L->ci->func), fr);   // barrier 障碍？
   /* LUA_REGISTRYINDEX does not need gc barrier
      (collector revisits it before finishing collection) */
   lua_unlock(L);
 }
 
-
+// lua_pushvalue push value
 LUA_API void lua_pushvalue (lua_State *L, int idx) {
   lua_lock(L);
+  //  L->top = index2addr(L, idx) 将idx索引对应的值赋值给top
   setobj2s(L, L->top, index2addr(L, idx));
+  // 栈顶+1
   api_incr_top(L);
   lua_unlock(L);
 }
@@ -272,7 +280,7 @@ LUA_API int lua_iscfunction (lua_State *L, int idx) {
   return (ttislcf(o) || (ttisCclosure(o)));
 }
 
-
+// tt_ is integer, ->tt_ == LUA_TNUMINT
 LUA_API int lua_isinteger (lua_State *L, int idx) {
   StkId o = index2addr(L, idx);
   return ttisinteger(o);
@@ -282,6 +290,7 @@ LUA_API int lua_isinteger (lua_State *L, int idx) {
 LUA_API int lua_isnumber (lua_State *L, int idx) {
   lua_Number n;
   const TValue *o = index2addr(L, idx);
+  // tonumber ?
   return tonumber(o, &n);
 }
 
@@ -405,9 +414,13 @@ LUA_API const char *lua_tolstring (lua_State *L, int idx, size_t *len) {
 LUA_API size_t lua_rawlen (lua_State *L, int idx) {
   StkId o = index2addr(L, idx);
   switch (ttype(o)) {
+    // short string
     case LUA_TSHRSTR: return tsvalue(o)->shrlen;
+    // long string
     case LUA_TLNGSTR: return tsvalue(o)->u.lnglen;
+    // userdata
     case LUA_TUSERDATA: return uvalue(o)->len;
+    // table
     case LUA_TTABLE: return luaH_getn(hvalue(o));
     default: return 0;
   }
@@ -426,7 +439,9 @@ LUA_API lua_CFunction lua_tocfunction (lua_State *L, int idx) {
 LUA_API void *lua_touserdata (lua_State *L, int idx) {
   StkId o = index2addr(L, idx);
   switch (ttnov(o)) {
+    // userdata
     case LUA_TUSERDATA: return getudatamem(uvalue(o));
+    // light userdata
     case LUA_TLIGHTUSERDATA: return pvalue(o);
     default: return NULL;
   }
@@ -442,12 +457,19 @@ LUA_API lua_State *lua_tothread (lua_State *L, int idx) {
 LUA_API const void *lua_topointer (lua_State *L, int idx) {
   StkId o = index2addr(L, idx);
   switch (ttype(o)) {
+    // table
     case LUA_TTABLE: return hvalue(o);
+    // lua closure
     case LUA_TLCL: return clLvalue(o);
+    // regulare c function
     case LUA_TCCL: return clCvalue(o);
+    // light c function
     case LUA_TLCF: return cast(void *, cast(size_t, fvalue(o)));
+    // thread
     case LUA_TTHREAD: return thvalue(o);
+    // userdata
     case LUA_TUSERDATA: return getudatamem(uvalue(o));
+    // light userdata
     case LUA_TLIGHTUSERDATA: return pvalue(o);
     default: return NULL;
   }
@@ -462,7 +484,9 @@ LUA_API const void *lua_topointer (lua_State *L, int idx) {
 
 LUA_API void lua_pushnil (lua_State *L) {
   lua_lock(L);
+  // 设置栈顶元素为nil
   setnilvalue(L->top);
+  // L->top++
   api_incr_top(L);
   lua_unlock(L);
 }

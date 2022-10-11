@@ -365,11 +365,13 @@ LUA_API void      (lua_setallocf) (lua_State *L, lua_Alloc f, void *ud);
 
 #define lua_tostring(L,i)	lua_tolstring(L, (i), NULL)
 
-
+// 栈操作宏：插入
 #define lua_insert(L,idx)	lua_rotate(L, (idx), 1)
 
+// 栈操作宏：移除
 #define lua_remove(L,idx)	(lua_rotate(L, (idx), -1), lua_pop(L, 1))
 
+// 栈操作宏：替换
 #define lua_replace(L,idx)	(lua_copy(L, -1, (idx)), lua_pop(L, 1))
 
 /* }============================================================== */

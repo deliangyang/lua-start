@@ -90,23 +90,23 @@ typedef struct stringtable {
 ** function can be called with the correct top.
 */
 typedef struct CallInfo {
-  StkId func;  /* function index in the stack */
-  StkId	top;  /* top for this function */
-  struct CallInfo *previous, *next;  /* dynamic call link */
+  StkId func;  /* function index in the stack 函数在栈中的缩影 */
+  StkId	top;  /* top for this function 栈顶 */
+  struct CallInfo *previous, *next;  /* dynamic call link 动态调用链接，双向链表 */
   union {
     struct {  /* only for Lua functions */
       StkId base;  /* base for this function */
       const Instruction *savedpc;
-    } l;
+    } l;          // lua function
     struct {  /* only for C functions */
       lua_KFunction k;  /* continuation in case of yields */
       ptrdiff_t old_errfunc;
       lua_KContext ctx;  /* context info. in case of yields */
-    } c;
+    } c;          // c function
   } u;
   ptrdiff_t extra;
-  short nresults;  /* expected number of results from this function */
-  unsigned short callstatus;
+  short nresults;  /* expected number of results from this function 预期返回值的数量 */
+  unsigned short callstatus;    // 调用状态？
 } CallInfo;
 
 
@@ -242,10 +242,12 @@ union GCUnion {
 	check_exp(novariant((v)->tt) < LUA_TDEADKEY, (&(cast_u(v)->gc)))
 
 
-/* actual number of total bytes allocated */
+/* actual number of total bytes allocated 实际分配的总字节数 lu_mem((g)->totalbytes + (g)->GCdebt) */
 #define gettotalbytes(g)	cast(lu_mem, (g)->totalbytes + (g)->GCdebt)
 
+// luaE_setdebt 设置债务
 LUAI_FUNC void luaE_setdebt (global_State *g, l_mem debt);
+// 释放线程
 LUAI_FUNC void luaE_freethread (lua_State *L, lua_State *L1);
 LUAI_FUNC CallInfo *luaE_extendCI (lua_State *L);
 LUAI_FUNC void luaE_freeCI (lua_State *L);
