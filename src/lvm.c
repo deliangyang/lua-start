@@ -799,16 +799,17 @@ void luaV_execute (lua_State *L) {
   base = ci->u.l.base;  /* local copy of function's base */
   /* main loop of interpreter */
   for (;;) {
-    Instruction i;          // 字节码
+    Instruction i;          // 字节码，由操作数和操作码组成，低6位为操作码，高26位为操作数，有一个操作数、两个操作数和三个的操作数
     StkId ra;               // ra寄存器？会在vmfetch()中赋值
     vmfetch();          // 获取pc地址指向的值
     vmdispatch (GET_OPCODE(i)) {        // 拿到OP_Code
       vmcase(OP_MOVE) {                 // op_move 将B寄存器的值赋值给A寄存器 local a = 1; local b = a;
-        setobjs2s(L, ra, RB(i));
+        // RB(i) == base+GETARG_B(i)
+        setobjs2s(L, ra, RB(i));        // 获取Register B的操作数 R(A)= R(B), R(A)已经在vmfetch()中被赋值
         vmbreak;
       }
       vmcase(OP_LOADK) {                // 将Bx索引对应的常量赋值给A寄存器 local a = 1;
-        TValue *rb = k + GETARG_Bx(i);
+        TValue *rb = k + GETARG_Bx(i);  // 获取Bx的值
         setobj2s(L, ra, rb);
         vmbreak;
       }
@@ -889,19 +890,23 @@ void luaV_execute (lua_State *L) {
         else Protect(luaV_finishget(L, rb, rc, ra, aux));
         vmbreak;
       }
-      vmcase(OP_ADD) {
-        TValue *rb = RKB(i);
-        TValue *rc = RKC(i);
+      vmcase(OP_ADD) {                    // 三个操作数？ R(A) := RK(B) + RK(C)
+        TValue *rb = RKB(i);              // B
+        TValue *rc = RKC(i);              // C
         lua_Number nb; lua_Number nc;
         if (ttisinteger(rb) && ttisinteger(rc)) {
             // 如果判断类型是 integer，调用宏 +，并将setivalue到 ra
           lua_Integer ib = ivalue(rb); lua_Integer ic = ivalue(rc);
+          // set integer value  ra = ib + ic
           setivalue(ra, intop(+, ib, ic));
-        }
-        else if (tonumber(rb, &nb) && tonumber(rc, &nc)) {
+        } else if (tonumber(rb, &nb) && tonumber(rc, &nc)) {
+          // set float value ra = nb + nc ?
           setfltvalue(ra, luai_numadd(L, nb, nc));
+        } else { 
+          // ra = rb + rc
+          // ra is result
+          Protect(luaT_trybinTM(L, rb, rc, ra, TM_ADD)); 
         }
-        else { Protect(luaT_trybinTM(L, rb, rc, ra, TM_ADD)); }
         vmbreak;
       }
       vmcase(OP_SUB) {

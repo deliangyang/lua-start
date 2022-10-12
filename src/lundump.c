@@ -208,11 +208,11 @@ static void LoadFunction (LoadState *S, Proto *f, TString *psource) {
   f->numparams = LoadByte(S);
   f->is_vararg = LoadByte(S);
   f->maxstacksize = LoadByte(S);
-  LoadCode(S, f);
-  LoadConstants(S, f);
-  LoadUpvalues(S, f);
-  LoadProtos(S, f);
-  LoadDebug(S, f);
+  LoadCode(S, f);       // 字节码
+  LoadConstants(S, f);  // 常量
+  LoadUpvalues(S, f);  // up values
+  LoadProtos(S, f);   // protos
+  LoadDebug(S, f);    // debug info
 }
 
 
@@ -253,7 +253,7 @@ static void checkHeader (LoadState *S) {
 
 
 /*
-** load precompiled chunk
+** load precompiled chunk 加载
 */
 LClosure *luaU_undump(lua_State *L, ZIO *Z, const char *name) {
   LoadState S;

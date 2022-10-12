@@ -129,7 +129,7 @@ static void DumpProtos (const Proto *f, DumpState *D) {
   int i;
   int n = f->sizep;
   DumpInt(n, D);
-  for (i = 0; i < n; i++)
+  for (i = 0; i < n; i++)       // 挨个dump函数，递归
     DumpFunction(f->p[i], f->source, D);
 }
 
@@ -167,32 +167,32 @@ static void DumpFunction (const Proto *f, TString *psource, DumpState *D) {
   if (D->strip || f->source == psource)
     DumpString(NULL, D);  /* no debug info or same source as its parent */
   else
-    DumpString(f->source, D);
+    DumpString(f->source, D);       // 调试信息 @../bin/add.lua
   DumpInt(f->linedefined, D);
   DumpInt(f->lastlinedefined, D);
   DumpByte(f->numparams, D);
   DumpByte(f->is_vararg, D);
-  DumpByte(f->maxstacksize, D);
-  DumpCode(f, D);
-  DumpConstants(f, D);
-  DumpUpvalues(f, D);
-  DumpProtos(f, D);
-  DumpDebug(f, D);
+  DumpByte(f->maxstacksize, D);   // 最大栈大小
+  DumpCode(f, D);                 // 字节码
+  DumpConstants(f, D);            // 常量
+  DumpUpvalues(f, D);             // Upvalues
+  DumpProtos(f, D);               // Protos
+  DumpDebug(f, D);                // debug info
 }
 
 
 static void DumpHeader (DumpState *D) {
-  DumpLiteral(LUA_SIGNATURE, D);
-  DumpByte(LUAC_VERSION, D);
-  DumpByte(LUAC_FORMAT, D);
-  DumpLiteral(LUAC_DATA, D);
-  DumpByte(sizeof(int), D);
-  DumpByte(sizeof(size_t), D);
-  DumpByte(sizeof(Instruction), D);
-  DumpByte(sizeof(lua_Integer), D);
-  DumpByte(sizeof(lua_Number), D);
-  DumpInteger(LUAC_INT, D);
-  DumpNumber(LUAC_NUM, D);
+  DumpLiteral(LUA_SIGNATURE, D);     // magic <esc>Lua
+  DumpByte(LUAC_VERSION, D);          // version
+  DumpByte(LUAC_FORMAT, D);           // format 格式
+  DumpLiteral(LUAC_DATA, D);         // \x19\x93\r\n\x1a\n
+  DumpByte(sizeof(int), D);           // int size
+  DumpByte(sizeof(size_t), D);        // size_t size
+  DumpByte(sizeof(Instruction), D);   // instruction size
+  DumpByte(sizeof(lua_Integer), D);   // lua_Integer size
+  DumpByte(sizeof(lua_Number), D);    // lua_Number size
+  DumpInteger(LUAC_INT, D);           // luac_int 0x5678
+  DumpNumber(LUAC_NUM, D);            // lua_Number(370.5)
 }
 
 
@@ -207,9 +207,9 @@ int luaU_dump(lua_State *L, const Proto *f, lua_Writer w, void *data,
   D.data = data;
   D.strip = strip;
   D.status = 0;
-  DumpHeader(&D);
-  DumpByte(f->sizeupvalues, &D);
-  DumpFunction(f, NULL, &D);
+  DumpHeader(&D);       // dump 文件头信息
+  DumpByte(f->sizeupvalues, &D);    // dump sizeupvalues
+  DumpFunction(f, NULL, &D);      // dump
   return D.status;
 }
 
