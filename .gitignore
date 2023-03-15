@@ -12,3 +12,5 @@
 /**/*.out
 src/lua
 src/luac
+/.vscode
+/build

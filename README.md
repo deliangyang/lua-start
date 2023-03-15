@@ -57,3 +57,12 @@ https://sourceware.org/gdb/onlinedocs/gdb/Types-In-Python.html#Types-In-Python
 ```
 
 - [https://blog.csdn.net/YangloveFeng/article/details/36005239](https://blog.csdn.net/YangloveFeng/article/details/36005239)
+
+### C/C++ vscode debug
+
+```
+  // 使用 IntelliSense 了解相关属性。 
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  // https://code.visualstudio.com/docs/cpp/config-linux
+```

@@ -633,6 +633,7 @@ const char *luaG_addinfo (lua_State *L, const char *msg, TString *src,
   else {  /* no source available; use "?" instead */
     buff[0] = '?'; buff[1] = '\0';
   }
+  // lua: bin/add.lua:13: <name> expected near '-'
   return luaO_pushfstring(L, "%s:%d: %s", buff, line, msg);
 }
 

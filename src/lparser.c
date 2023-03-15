@@ -489,7 +489,7 @@ static void leaveblock (FuncState *fs) {
   if (bl->previous)  /* inner block? */
     movegotosout(fs, bl);  /* update pending gotos to outer block */
   else if (bl->firstgoto < ls->dyd->gt.n)  /* pending gotos in outer block? */
-    undefgoto(ls, &ls->dyd->gt.arr[bl->firstgoto]);  /* error */
+    undefgoto(ls, &ls->dyd->gt.arr[bl->firstgoto]);  /* error braek和goto必须在循环内 */
 }
 
 

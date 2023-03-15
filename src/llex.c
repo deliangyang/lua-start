@@ -104,7 +104,7 @@ static const char *txtToken (LexState *ls, int token) {
   }
 }
 
-
+// lua: bin/add.lua:13: <name> expected near '-'
 static l_noret lexerror (LexState *ls, const char *msg, int token) {
   msg = luaG_addinfo(ls->L, msg, ls->source, ls->linenumber);
   if (token)
@@ -361,7 +361,7 @@ static int readdecesc (LexState *ls) {
   return r;
 }
 
-
+// 读取字符串
 static void read_string (LexState *ls, int del, SemInfo *seminfo) {
   save_and_next(ls);  /* keep delimiter (for error messages) */
   while (ls->current != del) {
@@ -424,20 +424,20 @@ static void read_string (LexState *ls, int del, SemInfo *seminfo) {
                                    luaZ_bufflen(ls->buff) - 2);
 }
 
-
+// 程序处理了常见的字符，这个循环里没有看到语法错误处理？
 static int llex (LexState *ls, SemInfo *seminfo) {
-  luaZ_resetbuffer(ls->buff);
+  luaZ_resetbuffer(ls->buff);     // ls->buff->n = 0
   for (;;) {
-    switch (ls->current) {
-      case '\n': case '\r': {  /* line breaks */
+    switch (ls->current) {      // 获取当前字符
+      case '\n': case '\r': {  /* line breaks 行末 */
         inclinenumber(ls);
         break;
       }
-      case ' ': case '\f': case '\t': case '\v': {  /* spaces */
+      case ' ': case '\f': case '\t': case '\v': {  /* spaces 空白*/
         next(ls);
         break;
       }
-      case '-': {  /* '-' or '--' (comment) */
+      case '-': {  /* '-' or '--' (comment) 注释，长注释和短注释 */
         next(ls);
         if (ls->current != '-') return '-';
         /* else is a comment */
@@ -456,7 +456,7 @@ static int llex (LexState *ls, SemInfo *seminfo) {
           next(ls);  /* skip until end of line (or end of file) */
         break;
       }
-      case '[': {  /* long string or simply '[' */
+      case '[': {  /* long string or simply '[' 长字符串 */
         int sep = skip_sep(ls);
         if (sep >= 0) {
           read_long_string(ls, seminfo, sep);
@@ -466,7 +466,7 @@ static int llex (LexState *ls, SemInfo *seminfo) {
           lexerror(ls, "invalid long string delimiter", TK_STRING);
         return '[';
       }
-      case '=': {
+      case '=': {   // eq
         next(ls);
         if (check_next1(ls, '=')) return TK_EQ;
         else return '=';
@@ -513,14 +513,14 @@ static int llex (LexState *ls, SemInfo *seminfo) {
         else return read_numeral(ls, seminfo);
       }
       case '0': case '1': case '2': case '3': case '4':
-      case '5': case '6': case '7': case '8': case '9': {
+      case '5': case '6': case '7': case '8': case '9': {     // 数字
         return read_numeral(ls, seminfo);
       }
       case EOZ: {
-        return TK_EOS;
+        return TK_EOS;     // 程序结束
       }
       default: {
-        if (lislalpha(ls->current)) {  /* identifier or reserved word? */
+        if (lislalpha(ls->current)) {  /* identifier or reserved word? 标识符或者保留字 */
           TString *ts;
           do {
             save_and_next(ls);
@@ -534,7 +534,7 @@ static int llex (LexState *ls, SemInfo *seminfo) {
             return TK_NAME;
           }
         }
-        else {  /* single-char tokens (+ - / ...) */
+        else {  /* single-char tokens (+ - / ...) 单个字符的token？ */
           int c = ls->current;
           next(ls);
           return c;
@@ -544,7 +544,7 @@ static int llex (LexState *ls, SemInfo *seminfo) {
   }
 }
 
-
+// 下一个token
 void luaX_next (LexState *ls) {
   ls->lastline = ls->linenumber;
   if (ls->lookahead.token != TK_EOS) {  /* is there a look-ahead token? */

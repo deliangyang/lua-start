@@ -36,9 +36,9 @@
 /*
 ** Possible states of the Garbage Collector
 */
-#define GCSpropagate	0
-#define GCSatomic	1
-#define GCSswpallgc	2
+#define GCSpropagate	0		// 传播
+#define GCSatomic	1		// 原子
+#define GCSswpallgc	2 // 交换 swp all
 #define GCSswpfinobj	3
 #define GCSswptobefnz	4
 #define GCSswpend	5

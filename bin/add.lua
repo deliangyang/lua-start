@@ -10,9 +10,9 @@ local c = 10
 local a = 3 + c
 
 print(a)
--- function add(a, b)
---     return a + b
--- end
+function add(a, b)
+    return a + b
+end
 
 -- print(add(2, 5))
 
