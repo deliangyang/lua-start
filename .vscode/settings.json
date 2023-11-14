@@ -5,12 +5,14 @@
     "*.cjson": "jsonc",
     "*.wxss": "css",
     "*.delete.bak": "php",
+    "*.vue": "vue",
     "lua.h": "c",
     "lualib.h": "c",
     "lauxlib.h": "c",
     "ltestlib.h": "c",
     "ltable.h": "c",
     "stdio.h": "c",
-    "luaconf.h": "c"
+    "luaconf.h": "c",
+    "lprefix.h": "c"
   }
 }

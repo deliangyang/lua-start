@@ -13,6 +13,7 @@
 
 
 /*
+** 表达式和变量描述符
 ** Expression and variable descriptor.
 ** Code generation for variables and expressions can be delayed to allow
 ** optimizations; An 'expdesc' structure describes a potentially-delayed
@@ -23,12 +24,13 @@
 
 /* kinds of variables/expressions */
 typedef enum {
+  // 空表达式
   VVOID,  /* when 'expdesc' describes the last expression a list,
              this kind means an empty list (so, no expression) */
-  VNIL,  /* constant nil */
+  VNIL,  /* constant nil 常量nil*/
   VTRUE,  /* constant true */
   VFALSE,  /* constant false */
-  VK,  /* constant in 'k'; info = index of constant in 'k' */
+  VK,  /* constant in 'k'; info = index of constant in 'k' 索引？ */
   VKFLT,  /* floating constant; nval = numerical float value */
   VKINT,  /* integer constant; nval = numerical integer value */
   VNONRELOC,  /* expression has its value in a fixed register;
@@ -65,10 +67,10 @@ typedef struct expdesc {
   } u;
   int t;  /* patch list of 'exit when true' */
   int f;  /* patch list of 'exit when false' */
-} expdesc;
+} expdesc; // 表达式描述
 
 
-/* description of active local variable */
+/* description of active local variable 变量描述 */
 typedef struct Vardesc {
   short idx;  /* variable index in stack */
 } Vardesc;

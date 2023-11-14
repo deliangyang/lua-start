@@ -63,7 +63,7 @@ static void statement (LexState *ls);
 static void expr (LexState *ls, expdesc *v);
 
 
-/* semantic error */
+/* semantic error 语义错误 */
 static l_noret semerror (LexState *ls, const char *msg) {
   ls->t.token = 0;  /* remove "near <token>" from final message */
   luaX_syntaxerror(ls, msg);

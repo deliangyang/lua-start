@@ -14,7 +14,7 @@
 #include "lua.h"
 
 
-/*
+/* 内存管理
 ** This macro reallocs a vector 'b' from 'on' to 'n' elements, where
 ** each element has size 'e'. In case of arithmetic overflow of the
 ** product 'n'*'e', it raises an error (calling 'luaM_toobig'). Because
