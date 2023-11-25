@@ -1,6 +1,6 @@
 /*
 ** $Id: lstate.c,v 2.133.1.1 2017/04/19 17:39:34 roberto Exp $
-** Global State
+** Global State 全局状态
 ** See Copyright Notice in lua.h
 */
 
@@ -50,6 +50,7 @@
 
 /*
 ** thread state + extra space
+** 线程状态 + 额外空间
 */
 typedef struct LX {
   lu_byte extra_[LUA_EXTRASPACE];
@@ -59,6 +60,7 @@ typedef struct LX {
 
 /*
 ** Main thread combines a thread state and the global state
+** 主线程结合线程状态和全局状态
 */
 typedef struct LG {
   LX l;
@@ -73,6 +75,7 @@ typedef struct LG {
 /*
 ** Compute an initial seed as random as possible. Rely on Address Space
 ** Layout Randomization (if present) to increase randomness..
+** 计算一个尽可能随机的初始种子。依赖地址空间布局随机化（如果存在）来增加随机性。
 */
 #define addbuff(b,p,e) \
   { size_t t = cast(size_t, e); \
@@ -118,6 +121,7 @@ CallInfo *luaE_extendCI (lua_State *L) {
 
 /*
 ** free all CallInfo structures not in use by a thread
+** 释放线程中未使用的所有CallInfo结构
 */
 void luaE_freeCI (lua_State *L) {
   CallInfo *ci = L->ci;
@@ -133,6 +137,8 @@ void luaE_freeCI (lua_State *L) {
 
 /*
 ** free half of the CallInfo structures not in use by a thread
+** 释放线程中未使用的一半CallInfo结构
+** shrink 是收缩的意思
 */
 void luaE_shrinkCI (lua_State *L) {
   CallInfo *ci = L->ci;
@@ -167,7 +173,7 @@ static void stack_init (lua_State *L1, lua_State *L) {
   L1->ci = ci;
 }
 
-
+// freestack 释放栈
 static void freestack (lua_State *L) {
   if (L->stack == NULL)
     return;  /* stack not completely built yet */
@@ -180,6 +186,7 @@ static void freestack (lua_State *L) {
 
 /*
 ** Create registry table and its predefined values
+** 创建注册表表及其预定义值
 */
 static void init_registry (lua_State *L, global_State *g) {
   TValue temp;
@@ -273,7 +280,7 @@ LUA_API lua_State *lua_newthread (lua_State *L) {
   /* anchor it on L stack */
   setthvalue(L, L->top, L1);
   api_incr_top(L);
-  preinit_thread(L1, g);
+  preinit_thread(L1, g);    // 预初始化线程
   L1->hookmask = L->hookmask;
   L1->basehookcount = L->basehookcount;
   L1->hook = L->hook;
@@ -349,7 +356,7 @@ LUA_API lua_State *lua_newstate (lua_Alloc f, void *ud) {
   return L;
 }
 
-
+// 关闭状态
 LUA_API void lua_close (lua_State *L) {
   L = G(L)->mainthread;  /* only the main thread can be closed */
   lua_lock(L);

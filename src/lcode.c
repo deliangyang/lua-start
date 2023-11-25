@@ -56,7 +56,7 @@ static int tonumeral(const expdesc *e, TValue *v) {
 
 
 /*
-** Create a OP_LOADNIL instruction, but try to optimize: if the previous
+** Create a OP_LOADNIL instruction（指令）, but try to optimize: if the previous
 ** instruction is also OP_LOADNIL and ranges are compatible, adjust
 ** range of previous instruction instead of emitting a new one. (For
 ** instance, 'local a; local b' will generate a single opcode.)
@@ -111,7 +111,8 @@ static void fixjump (FuncState *fs, int pc, int dest) {
 
 
 /*
-** Concatenate jump-list 'l2' into jump-list 'l1'
+** Concatenate jump-list 'l2' into jump-list 'l1'  
+** 将跳转表l1和l2连接起来
 */
 void luaK_concat (FuncState *fs, int *l1, int l2) {
   if (l2 == NO_JUMP) return;  /* nothing to concatenate? */
@@ -132,6 +133,7 @@ void luaK_concat (FuncState *fs, int *l1, int l2) {
 ** can be fixed later (with 'fixjump'). If there are jumps to
 ** this position (kept in 'jpc'), link them all together so that
 ** 'patchlistaux' will fix all them directly to the final destination.
+** 创建跳转指令，返回它的位置，
 */
 int luaK_jump (FuncState *fs) {
   int jpc = fs->jpc;  /* save list of jumps to here */
@@ -145,6 +147,7 @@ int luaK_jump (FuncState *fs) {
 
 /*
 ** Code a 'return' instruction
+** return 指令
 */
 void luaK_ret (FuncState *fs, int first, int nret) {
   luaK_codeABC(fs, OP_RETURN, first, nret+1, 0);
@@ -154,6 +157,7 @@ void luaK_ret (FuncState *fs, int first, int nret) {
 /*
 ** Code a "conditional jump", that is, a test or comparison opcode
 ** followed by a jump. Return jump position.
+** 条件调整，即测试或比较操作码，后跟跳转。返回跳转位置。
 */
 static int condjump (FuncState *fs, OpCode op, int A, int B, int C) {
   luaK_codeABC(fs, op, A, B, C);
@@ -164,6 +168,7 @@ static int condjump (FuncState *fs, OpCode op, int A, int B, int C) {
 /*
 ** returns current 'pc' and marks it as a jump target (to avoid wrong
 ** optimizations with consecutive instructions not in the same basic block).
+** 返回当前的pc，并将其标记为跳转目标（以避免错误的优化，连续的指令不在同一个基本块中）
 */
 int luaK_getlabel (FuncState *fs) {
   fs->lasttarget = fs->pc;
@@ -175,6 +180,7 @@ int luaK_getlabel (FuncState *fs) {
 ** Returns the position of the instruction "controlling" a given
 ** jump (that is, its condition), or the jump itself if it is
 ** unconditional.
+** 返回指令的位置“控制”给定的跳转（即它的条件），或者跳转本身，如果它是无条件的。
 */
 static Instruction *getjumpcontrol (FuncState *fs, int pc) {
   Instruction *pi = &fs->f->code[pc];
@@ -191,6 +197,10 @@ static Instruction *getjumpcontrol (FuncState *fs, int pc) {
 ** Otherwise, if 'reg' is not 'NO_REG', set it as the destination
 ** register. Otherwise, change instruction to a simple 'TEST' (produces
 ** no register value)
+** 修补TESTSET指令的目标寄存器。
+** 如果指令在位置“node”不是TESTSET，则返回0（“失败”）。
+** 否则，如果'reg'不是'NO_REG'，则将其设置为目标寄存器。
+** 否则，将指令更改为简单的“TEST”（不产生寄存器值）
 */
 static int patchtestreg (FuncState *fs, int node, int reg) {
   Instruction *i = getjumpcontrol(fs, node);
@@ -209,6 +219,7 @@ static int patchtestreg (FuncState *fs, int node, int reg) {
 
 /*
 ** Traverse a list of tests ensuring no one produces a value
+** 遍历测试列表，确保没有一个产生价值
 */
 static void removevalues (FuncState *fs, int list) {
   for (; list != NO_JUMP; list = getjump(fs, list))
@@ -220,6 +231,7 @@ static void removevalues (FuncState *fs, int list) {
 ** Traverse a list of tests, patching their destination address and
 ** registers: tests producing values jump to 'vtarget' (and put their
 ** values in 'reg'), other tests jump to 'dtarget'.
+** 遍历测试列表，修补它们的目标地址和寄存器：测试产生值跳转到“vtarget”（并将它们的值放在“reg”中），其他测试跳转到“dtarget”。
 */
 static void patchlistaux (FuncState *fs, int list, int vtarget, int reg,
                           int dtarget) {
@@ -248,6 +260,7 @@ static void dischargejpc (FuncState *fs) {
 /*
 ** Add elements in 'list' to list of pending jumps to "here"
 ** (current position)
+** 将“list”中的元素添加到“here”（当前位置）的待定跳转列表中
 */
 void luaK_patchtohere (FuncState *fs, int list) {
   luaK_getlabel(fs);  /* mark "here" as a jump target */
@@ -289,6 +302,8 @@ void luaK_patchclose (FuncState *fs, int list, int level) {
 /*
 ** Emit instruction 'i', checking for array sizes and saving also its
 ** line information. Return 'i' position.
+** 发出指令i，检查数组的大小，并保存它的行信息，返回指令i的位置
+** @import
 */
 static int luaK_code (FuncState *fs, Instruction i) {
   Proto *f = fs->f;
@@ -297,7 +312,7 @@ static int luaK_code (FuncState *fs, Instruction i) {
   luaM_growvector(fs->ls->L, f->code, fs->pc, f->sizecode, Instruction,
                   MAX_INT, "opcodes");
   f->code[fs->pc] = i;      // 将指令压入函数的code栈内
-  /* save corresponding line information */
+  /* save corresponding line information 保存相应行的信息 */
   luaM_growvector(fs->ls->L, f->lineinfo, fs->pc, f->sizelineinfo, int,
                   MAX_INT, "opcodes");
   f->lineinfo[fs->pc] = fs->ls->lastline;
@@ -308,6 +323,7 @@ static int luaK_code (FuncState *fs, Instruction i) {
 /*
 ** Format and emit an 'iABC' instruction. (Assertions check consistency
 ** of parameters versus opcode.)
+** 格式化并发出“iABC”指令。（断言检查参数与操作码的一致性。）
 */
 int luaK_codeABC (FuncState *fs, OpCode o, int a, int b, int c) {
   lua_assert(getOpMode(o) == iABC);
@@ -320,6 +336,7 @@ int luaK_codeABC (FuncState *fs, OpCode o, int a, int b, int c) {
 
 /*
 ** Format and emit an 'iABx' instruction.
+** 格式化并发出“iABx”指令。
 */
 int luaK_codeABx (FuncState *fs, OpCode o, int a, unsigned int bc) {
   lua_assert(getOpMode(o) == iABx || getOpMode(o) == iAsBx);
@@ -331,6 +348,7 @@ int luaK_codeABx (FuncState *fs, OpCode o, int a, unsigned int bc) {
 
 /*
 ** Emit an "extra argument" instruction (format 'iAx')
+** 发出“额外参数”指令（格式“iAx”）
 */
 static int codeextraarg (FuncState *fs, int a) {
   lua_assert(a <= MAXARG_Ax);
@@ -357,6 +375,7 @@ int luaK_codek (FuncState *fs, int reg, int k) {
 /*
 ** Check register-stack level, keeping track of its maximum size
 ** in field 'maxstacksize'
+** 检查寄存器堆栈级别，跟踪其最大大小在字段“maxstacksize”
 */
 void luaK_checkstack (FuncState *fs, int n) {
   int newstack = fs->freereg + n;
@@ -371,6 +390,7 @@ void luaK_checkstack (FuncState *fs, int n) {
 
 /*
 ** Reserve 'n' registers in register stack
+** 在寄存器堆栈中保留'n'寄存器
 */
 void luaK_reserveregs (FuncState *fs, int n) {
   luaK_checkstack(fs, n);

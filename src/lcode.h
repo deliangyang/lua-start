@@ -1,6 +1,6 @@
 /*
 ** $Id: lcode.h,v 1.64.1.1 2017/04/19 17:20:42 roberto Exp $
-** Code generator for Lua
+** Code generator for Lua  Lua代码生成器，将语法树，表达式转化为字节码
 ** See Copyright Notice in lua.h
 */
 

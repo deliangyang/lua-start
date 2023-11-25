@@ -33,7 +33,8 @@ LUAI_DDEF const char *const luaT_typenames_[LUA_TOTALTAGS] = {
   "proto" /* this last case is used for tests only */
 };
 
-
+// 初始化 tag method 名称, 保存在全局状态中 这些魔术方法和PHP的魔术方法有点相似
+// PHP也可以通过实现魔术方法来实现一些特殊的功能
 void luaT_init (lua_State *L) {
   static const char *const luaT_eventname[] = {  /* ORDER TM */
     "__index", "__newindex",
@@ -46,6 +47,7 @@ void luaT_init (lua_State *L) {
   };
   int i;
   for (i=0; i<TM_N; i++) {
+    // 初始化 tag method 名称
     G(L)->tmname[i] = luaS_new(L, luaT_eventname[i]);
     luaC_fix(L, obj2gco(G(L)->tmname[i]));  /* never collect these names */
   }

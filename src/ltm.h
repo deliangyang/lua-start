@@ -14,6 +14,8 @@
 /*
 * WARNING: if you change the order of this enumeration,
 * grep "ORDER TM" and "ORDER OP"
+* (in lopcodes.c) and change accordingly.
+* 警告：如果你改变了这个枚举的顺序，那么你需要在 lopcodes.c 中修改 ORDER TM 和 ORDER OP
 */
 typedef enum {
   TM_INDEX,

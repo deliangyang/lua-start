@@ -110,8 +110,9 @@ struct BlockCnt;  /* defined in lparser.c */
 
 
 /* state needed to generate code for a given function */
+// 生成代码所需的状态
 typedef struct FuncState {
-  Proto *f;  /* current function header */
+  Proto *f;  /* current function header */ 
   struct FuncState *prev;  /* enclosing function */
   struct LexState *ls;  /* lexical state */
   struct BlockCnt *bl;  /* chain of current blocks */
@@ -122,12 +123,12 @@ typedef struct FuncState {
   int np;  /* number of elements in 'p' */
   int firstlocal;  /* index of first local var (in Dyndata array) */
   short nlocvars;  /* number of elements in 'f->locvars' */
-  lu_byte nactvar;  /* number of active local variables */
+  lu_byte nactvar;  /* number of active local variables 活跃的局部变量数 */
   lu_byte nups;  /* number of upvalues */
   lu_byte freereg;  /* first free register */
 } FuncState;
 
-
+// 生成代码所需的状态 
 LUAI_FUNC LClosure *luaY_parser (lua_State *L, ZIO *z, Mbuffer *buff,
                                  Dyndata *dyd, const char *name, int firstchar);
 

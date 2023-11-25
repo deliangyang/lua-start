@@ -194,6 +194,7 @@ static int msghandler (lua_State *L) {
 /*
 ** Interface to 'lua_pcall', which sets appropriate message function
 ** and C-signal handler. Used to run all chunks.
+** 调用lua_pcall，设置适当的消息函数和C信号处理程序。用于运行所有块。
 */
 static int docall (lua_State *L, int narg, int nres) {
   int status;
@@ -570,7 +571,7 @@ static int pmain (lua_State *L) {
     lua_setfield(L, LUA_REGISTRYINDEX, "LUA_NOENV");
   }
   luaL_openlibs(L);  /* open standard libraries 打开标准库 */
-  createargtable(L, argv, argc, script);  /* create table 'arg' */
+  createargtable(L, argv, argc, script);  /* create table 'arg' 创建表 */
   if (!(args & has_E)) {  /* no option '-E'? */
     if (handle_luainit(L) != LUA_OK)  /* run LUA_INIT */
       return 0;  /* error running LUA_INIT */
@@ -578,7 +579,7 @@ static int pmain (lua_State *L) {
   if (!runargs(L, argv, script))  /* execute arguments -e and -l */
     return 0;  /* something failed */
   if (script < argc &&  /* execute main script (if there is one) */
-      handle_script(L, argv + script) != LUA_OK)
+      handle_script(L, argv + script) != LUA_OK) // 执行脚本
     return 0;
   if (args & has_i)  /* -i option? */
     doREPL(L);  /* do read-eval-print loop 交互模式 */

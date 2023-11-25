@@ -1022,7 +1022,7 @@ static BinOpr getbinopr (int op) {
   }
 }
 
-
+// 优先级
 static const struct {
   lu_byte left;  /* left priority for each binary operator */
   lu_byte right; /* right priority */
@@ -1075,7 +1075,7 @@ static BinOpr subexpr (LexState *ls, expdesc *v, int limit) {
   return op;  /* return first untreated operator */
 }
 
-
+// 解析表达式, 子表达式
 static void expr (LexState *ls, expdesc *v) {
   subexpr(ls, v, 0);
 }
@@ -1095,9 +1095,9 @@ static void block (LexState *ls) {
   /* block -> statlist */
   FuncState *fs = ls->fs;
   BlockCnt bl;
-  enterblock(fs, &bl, 0);
-  statlist(ls);
-  leaveblock(fs);
+  enterblock(fs, &bl, 0); // 进入一个新的block
+  statlist(ls);           // 解析block中的语句 statements list
+  leaveblock(fs);         // 离开block
 }
 
 
@@ -1180,7 +1180,7 @@ static int cond (LexState *ls) {
   expdesc v;
   expr(ls, &v);  /* read condition */
   if (v.k == VNIL) v.k = VFALSE;  /* 'falses' are all equal here */
-  luaK_goiftrue(ls->fs, &v);
+  luaK_goiftrue(ls->fs, &v);  // 生成OP_JMP指令, if true 跳转到下一条指令
   return v.f;
 }
 
@@ -1238,7 +1238,9 @@ static void labelstat (LexState *ls, TString *label, int line) {
   findgotos(ls, &ll->arr[l]);
 }
 
-
+/**
+ * luaK* 系列函数用于生成指令
+*/
 static void whilestat (LexState *ls, int line) {
   /* whilestat -> WHILE cond DO block END */
   FuncState *fs = ls->fs;
@@ -1246,15 +1248,15 @@ static void whilestat (LexState *ls, int line) {
   int condexit;
   BlockCnt bl;
   luaX_next(ls);  /* skip WHILE */
-  whileinit = luaK_getlabel(fs);
-  condexit = cond(ls);
-  enterblock(fs, &bl, 1);
-  checknext(ls, TK_DO);
-  block(ls);
-  luaK_jumpto(fs, whileinit);
-  check_match(ls, TK_END, TK_WHILE, line);
-  leaveblock(fs);
-  luaK_patchtohere(fs, condexit);  /* false conditions finish the loop */
+  whileinit = luaK_getlabel(fs);  // whileinit标记while循环的开始
+  condexit = cond(ls);  // condexit标记条件表达式的结束
+  enterblock(fs, &bl, 1); // 进入代码块
+  checknext(ls, TK_DO); // 检查下一个token是否是do
+  block(ls);    // 解析block
+  luaK_jumpto(fs, whileinit);   // 跳转到whileinit
+  check_match(ls, TK_END, TK_WHILE, line);  // 检查是否是end
+  leaveblock(fs);   // 离开代码块
+  luaK_patchtohere(fs, condexit);  /* false conditions finish the loop */ // 将condexit标记的位置补全
 }
 
 
@@ -1288,14 +1290,16 @@ static int exp1 (LexState *ls) {
   return reg;
 }
 
-
+/**
+ * for 代码块  for i = 1, 10 do end
+*/
 static void forbody (LexState *ls, int base, int line, int nvars, int isnum) {
   /* forbody -> DO block */
   BlockCnt bl;
   FuncState *fs = ls->fs;
   int prep, endfor;
   adjustlocalvars(ls, 3);  /* control variables */
-  checknext(ls, TK_DO);
+  checknext(ls, TK_DO); // 检查下一个token是否是do
   prep = isnum ? luaK_codeAsBx(fs, OP_FORPREP, base, NO_JUMP) : luaK_jump(fs);
   enterblock(fs, &bl, 0);  /* scope for declared variables */
   adjustlocalvars(ls, nvars);
@@ -1311,7 +1315,7 @@ static void forbody (LexState *ls, int base, int line, int nvars, int isnum) {
     endfor = luaK_codeAsBx(fs, OP_TFORLOOP, base + 2, NO_JUMP);
   }
   luaK_patchlist(fs, endfor, prep + 1);
-  luaK_fixline(fs, line);
+  luaK_fixline(fs, line); // 修正行号
 }
 
 
@@ -1440,7 +1444,7 @@ static void localfunc (LexState *ls) {
   getlocvar(fs, b.u.info)->startpc = fs->pc;
 }
 
-
+// local a, b = 1, 2
 static void localstat (LexState *ls) {
   /* stat -> LOCAL NAME {',' NAME} ['=' explist] */
   int nvars = 0;
@@ -1449,7 +1453,7 @@ static void localstat (LexState *ls) {
   do {
     new_localvar(ls, str_checkname(ls));
     nvars++;
-  } while (testnext(ls, ','));
+  } while (testnext(ls, ','));  // 如果是逗号, 则继续解析
   if (testnext(ls, '='))
     nexps = explist(ls, &e);
   else {
@@ -1457,7 +1461,7 @@ static void localstat (LexState *ls) {
     nexps = 0;
   }
   adjust_assign(ls, nvars, nexps, &e);
-  adjustlocalvars(ls, nvars);
+  adjustlocalvars(ls, nvars); // 调整局部变量
 }
 
 
@@ -1629,7 +1633,7 @@ static void mainfunc (LexState *ls, FuncState *fs) {
   init_exp(&v, VLOCAL, 0);  /* create and... */
   newupvalue(fs, ls->envn, &v);  /* ...set environment upvalue 设置环境变量 */
   luaX_next(ls);  /* read first token 获取第一个token */
-  statlist(ls);  /* parse main body 解析主体 */
+  statlist(ls);  /* parse main body 解析主体, 生成语法树 */
   check(ls, TK_EOS);
   close_func(ls);
 }
@@ -1637,12 +1641,12 @@ static void mainfunc (LexState *ls, FuncState *fs) {
 
 LClosure *luaY_parser (lua_State *L, ZIO *z, Mbuffer *buff,
                        Dyndata *dyd, const char *name, int firstchar) {
-  LexState lexstate;
-  FuncState funcstate;
-  LClosure *cl = luaF_newLclosure(L, 1);  /* create main closure */
+  LexState lexstate;  // 词法解析器
+  FuncState funcstate;  // 函数状态
+  LClosure *cl = luaF_newLclosure(L, 1);  /* create main closure */ // 创建一个主函数
   setclLvalue(L, L->top, cl);  /* anchor it (to avoid being collected) */
-  luaD_inctop(L);
-  lexstate.h = luaH_new(L);  /* create table for scanner */
+  luaD_inctop(L); // 增加栈顶
+  lexstate.h = luaH_new(L);  /* create table for scanner */ // 创建一个table用于扫描
   sethvalue(L, L->top, lexstate.h);  /* anchor it */
   luaD_inctop(L);
   funcstate.f = cl->p = luaF_newproto(L);

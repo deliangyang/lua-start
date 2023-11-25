@@ -164,9 +164,9 @@ static int writer(lua_State* L, const void* p, size_t size, void* u)
 
 static int pmain(lua_State* L)
 {
- int argc=(int)lua_tointeger(L,1);
- char** argv=(char**)lua_touserdata(L,2);
- const Proto* f;
+ int argc=(int)lua_tointeger(L,1);  // 参数个数
+ char** argv=(char**)lua_touserdata(L,2); // 参数
+ const Proto* f;    // 函数原型
  int i;
  if (!lua_checkstack(L,argc)) fatal("too many input files");
  for (i=0; i<argc; i++)
@@ -174,10 +174,9 @@ static int pmain(lua_State* L)
   const char* filename=IS("-") ? NULL : argv[i];
   if (luaL_loadfile(L,filename)!=LUA_OK) fatal(lua_tostring(L,-1));
  }
- f=combine(L,argc);
+ f=combine(L,argc);   // 合并函数原型
  if (listing) luaU_print(f,listing>1);
- if (dumping)
- {
+ if (dumping) { 
   FILE* D= (output==NULL) ? stdout : fopen(output,"wb");
   if (D==NULL) cannot("open");
   lua_lock(L);
@@ -189,19 +188,20 @@ static int pmain(lua_State* L)
  return 0;
 }
 
+// 入口函数
 int main(int argc, char* argv[])
 {
- lua_State* L;
- int i=doargs(argc,argv);
+ lua_State* L;  // lua 状态机
+ int i=doargs(argc,argv); // 解析参数
  argc-=i; argv+=i;
- if (argc<=0) usage("no input files given");
- L=luaL_newstate();
+ if (argc<=0) usage("no input files given");    // 如果没有文件输入，报错
+ L=luaL_newstate(); // 创建 lua 状态机
  if (L==NULL) fatal("cannot create state: not enough memory");
- lua_pushcfunction(L,&pmain);
- lua_pushinteger(L,argc);
- lua_pushlightuserdata(L,argv);
- if (lua_pcall(L,2,0,0)!=LUA_OK) fatal(lua_tostring(L,-1));
- lua_close(L);
+ lua_pushcfunction(L,&pmain); // 将 pmain 函数压入栈
+ lua_pushinteger(L,argc);   // 将参数个数压入栈
+ lua_pushlightuserdata(L,argv); // 将参数压入栈
+ if (lua_pcall(L,2,0,0)!=LUA_OK) fatal(lua_tostring(L,-1)); // 调用 pmain 函数
+ lua_close(L);  // 关闭 lua 状态机
  return EXIT_SUCCESS;
 }
 
